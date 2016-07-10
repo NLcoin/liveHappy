@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.wxgh.livehappy.fragment.Tab01;
 import com.wxgh.livehappy.fragment.Tab02;
 import com.wxgh.livehappy.fragment.Tab03;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         initData();
 

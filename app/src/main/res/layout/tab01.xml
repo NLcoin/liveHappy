@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--关注 热门 附近-->
+    <!--关注 热门 最新-->
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
@@ -68,7 +68,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="附近"
+                    android:text="最新"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#6C5B61"
