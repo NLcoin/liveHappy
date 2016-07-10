@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--直播推流start-->
+    <color name="letv_recorder_text_color">#ffffff</color>
+    <color name="letv_recorder_text_blue_color">#1073C2</color>
+    <color name="letv_recorder_background_gray">#70000000</color>
+    <color name="letv_recorder_fade_background">#50BA68C8</color>
+    <color name="letv_recorder_dialog_button_background">#1074C2</color>
+    <!--直播推流end-->
 </resources>

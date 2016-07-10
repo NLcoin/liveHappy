@@ -5,4 +5,13 @@
     <dimen name="tab03height">50dp</dimen>
     <dimen name="imagesize">25dp</dimen>
     <dimen name="size">20sp</dimen>
+
+    <!--直播推流start-->
+    <dimen name="letv_recorder_top_title_size">16sp</dimen>
+    <dimen name="letv_recorder_left_arraw_margin">10dp</dimen>
+    <dimen name="letv_recorder_change_cam_margin">20dp</dimen>
+    <dimen name="letv_recorder_bottom_text_size">16sp</dimen>
+    <dimen name="letv_recorder_machine_item_width">90dp</dimen>
+    <dimen name="letv_recorder_machine_item_gap">10dp</dimen>
+    <!--直播推流ent-->
 </resources>
