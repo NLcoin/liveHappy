@@ -1,5 +1,6 @@
 package com.wxgh.livehappy.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,12 @@ public class Tab01 extends Fragment {
     private TextView txt3;
 
     private List<Fragment> mFragments=new ArrayList<Fragment>();
+
+    private Context mContext;
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -136,6 +143,7 @@ public class Tab01 extends Fragment {
     public void initFragment(){
         tab0101 = new Tab0101();
         tab0102= new Tab0102();
+        tab0102.setmContext(mContext);
         tab0103= new Tab0103();
         mFragments.add(tab0101);
         mFragments.add(tab0102);

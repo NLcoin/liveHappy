@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void initfragment() {
         t1 = new Tab01();
+        t1.setmContext(this);
         t2 = new Tab02();
         t3 = new Tab03();
-
     }
 
 

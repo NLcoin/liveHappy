@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_height="200dp"
+    >
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal|top"
+        />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_header"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fresco:roundAsCircle="true"
+        fresco:roundedCornerRadius="120dp"
+        android:layout_marginTop="45dp"
+        fresco:actualImageScaleType="focusCrop"
+        android:layout_marginLeft="10dp"
+        android:clickable="true"
+        android:layout_gravity="left|center_vertical"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="left|bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="徐博"
+            android:textColor="#000"
+            android:layout_marginTop="5dp"
+            android:id="@+id/txt_username"
+            android:textSize="18sp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginStart="55dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            >
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/like3"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:text="5231"
+                android:id="@+id/txt_likenumber"
+                android:layout_gravity="center"
+                android:width="40dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="徐博首秀"
+            android:id="@+id/txt_title"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="15dp"
+            android:width="180dp"
+            />
+
+    </RelativeLayout>
+
+
+</FrameLayout>
