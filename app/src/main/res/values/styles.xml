@@ -8,4 +8,51 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BtnAttr">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">34dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/home_btn_bg</item>
+        <item name="android:layout_marginStart">83dp</item>
+        <item name="android:layout_marginEnd">83dp</item>
+        <item name="android:layout_marginBottom">14dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="vodLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">40dp</item>
+        <item name="android:layout_marginTop">38dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="vodTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="vodEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:background">@drawable/input_box</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">www.leshi.cn</item>
+        <item name="android:paddingStart">10dp</item>
+    </style>
+
+    <style name="playbtn">
+        <item name="android:layout_width">280dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/play_btn_bg</item>
+    </style>
 </resources>

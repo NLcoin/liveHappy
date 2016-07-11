@@ -33,5 +33,18 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:support-v4:24.0.0'
     compile 'com.facebook.fresco:fresco:0.9.0+'
+//    推流jar
     compile files('libs/lecloud_Android_mobile_live_push_SDK_v1.1.0_stable.jar')
+    //    推流jar
+    //    直播播放jar
+    compile files('libs/AdModule.jar')
+    compile files('libs/avdsmart_sdk.jar')
+    compile files('libs/cmf-sdk-1.0.17.jar')
+    compile files('libs/gson-2.1.jar')
+    compile files('libs/LePanoVideo.jar')
+    compile files('libs/letvadlib_lecloud.jar')
+    compile files('libs/org.apache.http.legacy.jar')
+    compile files('libs/playersdk_2016_04_25_17_v4.0.1_release.jar')
+    compile files('libs/VideoTracker.jar')
+    //    直播播放jar
 }

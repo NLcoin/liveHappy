@@ -11,4 +11,10 @@
     <color name="letv_recorder_fade_background">#50BA68C8</color>
     <color name="letv_recorder_dialog_button_background">#1074C2</color>
     <!--直播推流end-->
+    <!--直播播放start-->
+    <color name="trans">#99746C77</color>
+    <color name="btn_stroke">#746C77</color>
+    <color name="blue">#6A42EC</color>
+    <color name="blue_tran">#CC6A42EC</color>
+    <!--直播播放end-->
 </resources>
