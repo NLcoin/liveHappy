@@ -6,8 +6,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.model.Users;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -16,19 +33,29 @@ import com.wxgh.livehappy.R;
 public class PhoneLoginPassword extends Fragment {
     private View view;
 
+    private EditText etPhone, etPassword;//手机号、密码
+    private TextView tvLogin, tvForget;//登陆,忘记密码
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.phoneloginpassword, container,false);
-        init();
+        view = inflater.inflate(R.layout.phoneloginpassword, container, false);
 
+        initView();
         return view;
     }
 
-    public void init(){
+    /**
+     * 初始化
+     */
+    private void initView() {
+        etPhone = (EditText) view.findViewById(R.id.et_phone);
+        etPassword = (EditText) view.findViewById(R.id.et_password);
+        tvLogin = (TextView) view.findViewById(R.id.tv_login);
+        tvForget = (TextView) view.findViewById(R.id.tv_forget);
 
+        tvLogin.setOnClickListener(click);
+        tvForget.setOnClickListener(click);
     }
-
-
 
 
     @Override
@@ -36,4 +63,62 @@ public class PhoneLoginPassword extends Fragment {
 
     }
 
+    /**
+     * 单击事件
+     */
+    View.OnClickListener click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tv_login://登陆
+                    break;
+                case R.id.tv_forget://忘记密码
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 登陆
+     *
+     * @param phone    手机号
+     * @param password 密码
+     */
+    private void login(String phone, String password) {
+        String url = "http://123.206.45.56/:8080/LiveMusic/" + "userLogin.ssm";
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    if (jsonObject != null) {
+                        if (jsonObject.getInt("error") == 200) {//登陆成功
+                            Users user = new Gson().fromJson(jsonObject.get("users").toString(), Users.class);
+                            if (user != null) {
+                                //登陆成功操作
+                            }
+
+                        } else if (jsonObject.getInt("error") == 201) {//用户存在
+
+                        } else if (jsonObject.getInt("error") == 202) {//用户已在线
+
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
 }
