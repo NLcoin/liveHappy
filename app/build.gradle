@@ -32,7 +32,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     //noinspection GradleCompatible
     compile 'com.android.support:percent:22.2.0'
     //noinspection GradleCompatible
@@ -52,7 +52,7 @@ dependencies {
     compile files('libs/playersdk_2016_04_25_17_v4.0.1_release.jar')
     compile files('libs/VideoTracker.jar')
     //    直播播放jar结束
-    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:design:23.4.0'
     compile files('libs/okio-1.8.0.jar')
     compile files('libs/okhttp-3.2.0.jar')
     //    tencent的开始

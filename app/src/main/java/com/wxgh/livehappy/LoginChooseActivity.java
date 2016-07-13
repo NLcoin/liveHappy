@@ -77,6 +77,9 @@ public class LoginChooseActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * 等待进度条
+     */
     public void showProgressDialog() {
         dialog = new ProgressDialog(LoginChooseActivity.this);
         //设置进度条风格，风格为圆形，旋转的
@@ -89,7 +92,6 @@ public class LoginChooseActivity extends AppCompatActivity {
         dialog.setCancelable(true);
         //显示
         dialog.show();
-
     }
 
 
@@ -123,7 +125,9 @@ public class LoginChooseActivity extends AppCompatActivity {
             Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
         }
         if (requestCode == 2) {//从手机号登录回来
-
+            if (resultCode == 2) {//登陆成功
+                loginOk();
+            }
         }
     }
 
@@ -152,7 +156,7 @@ public class LoginChooseActivity extends AppCompatActivity {
                 String json = response.body().string();
                 ReturnJson returnJson = new Gson().fromJson(json, ReturnJson.class);
                 if (returnJson.getError() == 200 && returnJson.getUsers() != null) {//获取用户信息成功
-                    StaticManger.user = returnJson.getUsers().get(0);
+                    StaticManger.saveUser(LoginChooseActivity.this, returnJson.getUsers().get(0));
                     loginOk();
                 }
             }

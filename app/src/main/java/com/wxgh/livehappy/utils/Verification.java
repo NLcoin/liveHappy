@@ -1,4 +1,4 @@
-package com.wxgh.livehappy.utiles;
+package com.wxgh.livehappy.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +18,8 @@ import java.util.regex.Pattern;
 public class Verification {
     /**
      * 手机号验证
-     * @param  str
+     *
+     * @param str
      * @return 验证通过返回true
      */
     public static boolean isMobile(String str) {
@@ -33,25 +34,27 @@ public class Verification {
 
     /**
      * 验证密码
+     *
      * @param pwd
      * @return
      */
-    public static boolean isPassword(String pwd){
+    public static boolean isPassword(String pwd) {
         String r = "^[0-9a-zA-Z]{6,16}$";
         return pwd.matches(r);
     }
 
     /**
      * 获取当前时间（年月日）
+     *
      * @return
      */
-    public static String getTime(){
-        int y,m,d;
-        Calendar cal=Calendar.getInstance();
-        y=cal.get(Calendar.YEAR);
-        m=cal.get(Calendar.MONTH);
-        d=cal.get(Calendar.DATE);
-        return y+"年"+m+"月"+d+"日";
+    public static String getTime() {
+        int y, m, d;
+        Calendar cal = Calendar.getInstance();
+        y = cal.get(Calendar.YEAR);
+        m = cal.get(Calendar.MONTH);
+        d = cal.get(Calendar.DATE);
+        return y + "年" + m + "月" + d + "日";
     }
 
 
@@ -76,7 +79,7 @@ public class Verification {
         builder.setNegativeButton("修改密码", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(context,"修改密码！",Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "修改密码！", Toast.LENGTH_LONG).show();
             }
         });
         // 设置对话框关闭监听
@@ -84,4 +87,6 @@ public class Verification {
         // 创建对话框并显示
         builder.create().show();
     }
+
+
 }

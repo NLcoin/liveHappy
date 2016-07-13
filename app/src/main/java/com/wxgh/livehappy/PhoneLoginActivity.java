@@ -20,7 +20,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
     //切换
     private ViewPager mViewPager;
     private MainAdapter mAdapter;
-    private List<Fragment> mFragments=new ArrayList<Fragment>();
+    private List<Fragment> mFragments = new ArrayList<Fragment>();
     //切换的页面
     private PhoneLoginPassword phoneLoginPassword;
     private PhoneLoginVerificationCode phoneLoginVerificationCode;
@@ -29,25 +29,31 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
     private TextView txt_Verificationcode;
     private LinearLayout lin_left;
     private LinearLayout lin_reight;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_login);
         init();
-        mAdapter=new MainAdapter(getSupportFragmentManager());
+        mAdapter = new MainAdapter(getSupportFragmentManager());
         mAdapter.setFragmentList(mFragments);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
     }
-    public void init(){
-        mViewPager=(ViewPager)findViewById(R.id.phone_login_vp);
+
+    public void init() {
+        mViewPager = (ViewPager) findViewById(R.id.phone_login_vp);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
             @Override
             public void onPageSelected(int position) {
                 reset();
-                switch (position){
+                switch (position) {
                     case 0:
                         txt_password.setTextColor(Color.parseColor("#E5AA1E"));
                         break;
@@ -62,38 +68,42 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
-        txt_password=(TextView)findViewById(R.id.txt_password);
-        txt_Verificationcode=(TextView)findViewById(R.id.txt_Verificationcode);
-        lin_left=(LinearLayout)findViewById(R.id.lin_left);
+        txt_password = (TextView) findViewById(R.id.txt_password);
+        txt_Verificationcode = (TextView) findViewById(R.id.txt_Verificationcode);
+        lin_left = (LinearLayout) findViewById(R.id.lin_left);
         lin_left.setOnClickListener(this);
-        lin_reight=(LinearLayout)findViewById(R.id.lin_reight);
+        lin_reight = (LinearLayout) findViewById(R.id.lin_reight);
         lin_reight.setOnClickListener(this);
         initFragment();
     }
+
     /**
      * 初始化mFragments 数据 页面
      */
-    public void initFragment(){
-        phoneLoginPassword=new PhoneLoginPassword();
-        phoneLoginVerificationCode=new PhoneLoginVerificationCode();
+    public void initFragment() {
+        phoneLoginPassword = new PhoneLoginPassword();
+        phoneLoginVerificationCode = new PhoneLoginVerificationCode();
         mFragments.add(phoneLoginPassword);
         mFragments.add(phoneLoginVerificationCode);
     }
+
     /**
      * 重置1
      */
-    public void reset(){
+    public void reset() {
         txt_password.setTextColor(Color.parseColor("#757575"));
         txt_Verificationcode.setTextColor(Color.parseColor("#757575"));
     }
+
     /**
      * 单击事件
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
         reset();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.lin_left:
                 txt_password.setTextColor(Color.parseColor("#E5AA1E"));
                 mViewPager.setCurrentItem(0);
@@ -103,5 +113,11 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
                 mViewPager.setCurrentItem(1);
                 break;
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

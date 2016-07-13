@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.model.ReturnJson;
 import com.wxgh.livehappy.model.Users;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.wxgh.livehappy.utils.ConstantManger;
+import com.wxgh.livehappy.utils.StaticManger;
+import com.wxgh.livehappy.utils.Verification;
 
 import java.io.IOException;
 
@@ -50,7 +52,7 @@ public class PhoneLoginPassword extends Fragment {
     private void initView() {
         etPhone = (EditText) view.findViewById(R.id.et_phone);
         etPassword = (EditText) view.findViewById(R.id.et_password);
-        tvLogin = (TextView) view.findViewById(R.id.btn_login);
+        tvLogin = (TextView) view.findViewById(R.id.tv_login);
         tvForget = (TextView) view.findViewById(R.id.tv_forget);
 
         tvLogin.setOnClickListener(click);
@@ -71,6 +73,14 @@ public class PhoneLoginPassword extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_login://登陆
+                    String phone = etPhone.getText().toString().trim();
+                    String password = etPassword.getText().toString().trim();
+                    if (Verification.isMobile(phone) && Verification.isPassword(password)) {
+                        StaticManger.showProgressDialog(getContext());
+                        login(phone, password);
+                    } else {
+                        Toast.makeText(getContext(), "请输入正确的账号密码", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case R.id.tv_forget://忘记密码
                     break;
@@ -84,8 +94,8 @@ public class PhoneLoginPassword extends Fragment {
      * @param phone    手机号
      * @param password 密码
      */
-    private void login(String phone, String password) {
-        String url = "http://123.206.45.56/:8080/LiveMusic/" + "userLogin.ssm";
+    private void login(final String phone, final String password) {
+        String url = ConstantManger.SERVER_IP + ConstantManger.USER_LOGIN;
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).build();
         Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -98,27 +108,37 @@ public class PhoneLoginPassword extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    if (jsonObject != null) {
-                        if (jsonObject.getInt("error") == 200) {//登陆成功
-                            Users user = new Gson().fromJson(jsonObject.get("users").toString(), Users.class);
+                ReturnJson returnJson=new Gson().fromJson(json,ReturnJson.class);
+
+                    if (returnJson != null) {
+                        if (returnJson.getError() == 200) {//登陆成功
+                            Users user = returnJson.getUsers().get(0);
                             if (user != null) {
+                                StaticManger.saveUser(getContext(), user);
                                 //登陆成功操作
+                                loginOk();
                             }
-
-                        } else if (jsonObject.getInt("error") == 201) {//用户存在
-
-                        } else if (jsonObject.getInt("error") == 202) {//用户已在线
+                        } else if (returnJson.getError() == 201) {//用户存在
+//                            insertUserByPhoneAndPassword(phone, password);
+                        } else if (returnJson.getError() == 202) {//用户已在线
 
                         }
                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    StaticManger.destroyDialog();
+
 
             }
         });
+    }
+
+
+    /**
+     * 登陆成功
+     */
+    public void loginOk() {
+        getActivity().setResult(2);
+        StaticManger.destroyDialog();
+        getActivity().finish();
     }
 }

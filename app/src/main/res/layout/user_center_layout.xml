@@ -52,7 +52,8 @@
                     android:layout_centerHorizontal="true"
                     android:text="Ta好像忘记写签名了"
                     android:textColor="#D4F8F4"
-                    android:textSize="23sp" />
+                    android:textSize="23sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_zan"
@@ -415,7 +416,8 @@
                     android:padding="7dp"
                     android:text="退出登录"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:id="@+id/tv_login_out" />
             </LinearLayout>
         </LinearLayout>
 

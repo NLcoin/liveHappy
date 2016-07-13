@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.wxgh.livehappy.model.ReturnJson;
 import com.wxgh.livehappy.model.Users;
 import com.wxgh.livehappy.utils.ConstantManger;
 import com.wxgh.livehappy.utils.StaticManger;
+import com.wxgh.livehappy.utils.Verification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,49 +63,48 @@ public class PhoneLoginVerificationCode extends Fragment {
      * 第一次登录获取密码
      */
     public void getPassword() {
+        // Verification.getPass(getContext(), "设置密码");
         final EditText editText = new EditText(getActivity());
-        new AlertDialog.Builder(getActivity()).setTitle("请输入密码").setIcon(
-                android.R.drawable.ic_dialog_info).setView(
-                editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("设置密码");
+        //    通过LayoutInflater来加载一个xml的布局文件作为一个View对象
+//        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog, null);
+        //    设置我们自己定义的布局文件作为弹出框的Content
+        builder.setView(editText);
+
+//        final EditText username = (EditText)view.findViewById(R.id.username);
+//        final EditText password = (EditText)view.findViewById(R.id.password);
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 password = editText.getText().toString();
-            }
-        }).setNegativeButton("取消", null).show();
-    }
-
-
-    /**
-     * 第三方登录
-     *
-     * @param tuk QQ登录信息
-     */
-   /*public void thirdPartyLogin(TencentUserToken tuk) {
-
-        String url = ConstantManger.SERVER_IP + ConstantManger.THIRD_PARTY_LOGIN;//"?Access_token=1& Openid=1& ThirdPartyType=1&appid=1";
-        RequestBody requestBody = null;
-        if (tuk != null) {
-            requestBody = new FormBody.Builder().add("appid", tencentAppID).add("Access_token", tuk.getAccess_token()).add("Openid", tuk.getOpenid()).add("ThirdPartyType", "0").build();
-        }
-        Request request = new Request.Builder().url(url).post(requestBody).build();
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String json = response.body().string();
-                ReturnJson returnJson = new Gson().fromJson(json, ReturnJson.class);
-                if (returnJson.getError() == 200 && returnJson.getUsers() != null) {//获取用户信息成功
-                    StaticManger.user = returnJson.getUsers().get(0);
-                    loginOk();
+                if (Verification.isPassword(password)) {
+                    insertUserByPhoneAndPassword(phoneNum);
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(getContext(), "请输入正确的密码", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }*/
+
+        builder.show();
+//        new AlertDialog.Builder(getActivity()).setTitle("设置密码").setIcon(
+//                android.R.drawable.ic_dialog_info).setView(
+//                editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                password = editText.getText().toString();
+//                if (Verification.isPassword(password)) {
+//                    insertUserByPhoneAndPassword(phoneNum);
+//                    dialog.dismiss();
+//                } else {
+//                    Toast.makeText(getContext(), "请输入正确的密码", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }).show();
+    }
+
     /**
      * 短信验证的回掉
      */
@@ -118,14 +117,21 @@ public class PhoneLoginVerificationCode extends Fragment {
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     //提交验证码成功
 //                       验证失败走异常，成功返回---- {phone=15321763573, country=86}
+                    try {
+                        JSONObject jsonObject = new JSONObject(data.toString());
+                        selectUserByPhone(jsonObject.getString("phone"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     handler.sendEmptyMessage(1);//将smssdk注册代码注销
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     //获取验证码成功
                     if ((Boolean) data) {
                         //验证成功，此号码在本设备上验证过了，不会再发短信
+
                         handler.sendEmptyMessage(1);//将smssdk注册代码注销
                     }
-                    Log.d("sms", "EVENT_GET_VERIFICATION_CODE--------------" + data + "");
+//                    Log.d("sms", "EVENT_GET_VERIFICATION_CODE--------------" + data + "");
                 } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
                     //返回支持发送验证码的国家列表
 //                        ArrayList<HashMap<String,Object>> phoneMap = (ArrayList<HashMap<String,Object>>) data;
@@ -162,10 +168,13 @@ public class PhoneLoginVerificationCode extends Fragment {
                             Users user = new Gson().fromJson(jsonObject.get("users").toString(), Users.class);
                             if (user != null) {
                                 //登陆成功操作
+                                StaticManger.saveUser(getContext(), user);
+                                loginOk();
                             }
 
                         } else if (jsonObject.getInt("error") == 201) {//用户不存在
-                            getPassword();
+                            handler1.sendEmptyMessage(3);
+//                            getPassword();
                             if (password != null && !password.equals("") && password.length() >= 6) {
                                 insertUserByPhoneAndPassword(phone);
                             }
@@ -182,6 +191,16 @@ public class PhoneLoginVerificationCode extends Fragment {
         });
     }
 
+    Handler handler1 = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == 3) {
+                getPassword();
+            }
+
+            return false;
+        }
+    });
 
     /**
      * 根据手机号和密码注册
@@ -203,7 +222,7 @@ public class PhoneLoginVerificationCode extends Fragment {
                 ReturnJson returnJson = new Gson().fromJson(json, ReturnJson.class);
                 if (returnJson != null) {
                     if (returnJson.getError() == 200 && returnJson.getUsers() != null) {//获取用户信息成功
-                        StaticManger.user = returnJson.getUsers().get(0);
+                        StaticManger.saveUser(getContext(), returnJson.getUsers().get(0));
                         loginOk();
                     } else if (returnJson.getError() == 201) {//注册失败
                     }
@@ -216,7 +235,9 @@ public class PhoneLoginVerificationCode extends Fragment {
      * 登陆成功操作
      */
     public void loginOk() {
+        getActivity().setResult(2);
 
+        getActivity().finish();
     }
 
 
@@ -258,9 +279,11 @@ public class PhoneLoginVerificationCode extends Fragment {
                     }
                     break;
                 case R.id.tv_login://登陆
-                    if (getPhoneNum() && getSMSCode()) {
-                        SMSSDK.submitVerificationCode("86", phoneNum, SMSCode);
-                    }
+                    getPhoneNum();
+                    selectUserByPhone(phoneNum);
+//                    if (getPhoneNum() && getSMSCode()) {
+//                        SMSSDK.submitVerificationCode("86", phoneNum, SMSCode);
+//                    }
                     break;
             }
         }
@@ -273,7 +296,7 @@ public class PhoneLoginVerificationCode extends Fragment {
      */
     public boolean getPhoneNum() {
         phoneNum = et_phone.getText().toString().trim();
-        if (phoneNum.equals("") || phoneNum.length() != 11) {
+        if (!Verification.isMobile(phoneNum)) {
             Toast.makeText(getContext(), "请输入正确的手机号", Toast.LENGTH_SHORT).show();
             return false;
         }
