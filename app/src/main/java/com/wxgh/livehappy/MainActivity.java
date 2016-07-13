@@ -29,11 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         initData();
-
         initfragment();
-
         onclick();
-
         fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.main_framelayout, t1, "F1").commit();
     }

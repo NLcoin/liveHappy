@@ -85,8 +85,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/verification_image"
-                    android:clickable="true"
-                    android:onClick="verification"
+                    android:id="@+id/verification"
                     />
             </LinearLayout>
             <View
