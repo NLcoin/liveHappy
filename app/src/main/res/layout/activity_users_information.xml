@@ -9,6 +9,37 @@
     <!-- 全圆角-->
     <LinearLayout style="@style/wrap_layout">
         <LinearLayout style="@style/single_layout">
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/arrow"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout">
+            <TextView style="@style/usertext" android:text="手机号"/>
+            <EditText style="@style/img_arrow" android:layout_weight="1" android:text="18611156716" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout">
             <TextView style="@style/usertext" android:text="昵称"/>
             <EditText style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
         </LinearLayout>
