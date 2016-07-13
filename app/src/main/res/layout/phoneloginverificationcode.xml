@@ -85,8 +85,9 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/verification_image"
-                    android:id="@+id/verification"
-                    />
+                    android:clickable="true"
+                    android:onClick="verification"
+                    android:id="@+id/iv_get_sms_code" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -106,5 +107,5 @@
         android:padding="7dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        />
+        android:id="@+id/tv_login" />
 </LinearLayout>

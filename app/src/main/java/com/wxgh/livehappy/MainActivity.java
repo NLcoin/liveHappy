@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.wxgh.livehappy.fragment.Tab01;
 import com.wxgh.livehappy.fragment.Tab02;
-import com.wxgh.livehappy.fragment.Tab03;
+import com.wxgh.livehappy.fragment.UserCenterFragment;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Tab01 t1;
     private Tab02 t2;
-    private Tab03 t3;
+    private UserCenterFragment userCenterFragment;
 
     private ImageButton btn_tab_bottom1;
     private ImageButton btn_tab_bottom2;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t1 = new Tab01();
         t1.setmContext(this);
         t2 = new Tab02();
-        t3 = new Tab03();
+        userCenterFragment = new UserCenterFragment();
     }
 
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 btn_tab_bottom2.setImageResource(R.drawable.live_h);
                 break;
             case R.id.btn_tab_bottom3:
-                fm.beginTransaction().replace(R.id.main_framelayout, t3, "F3").commit();
+                fm.beginTransaction().replace(R.id.main_framelayout, userCenterFragment, "F3").commit();
                 btn_tab_bottom3.setImageResource(R.drawable.me_h);
                 break;
         }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void tab_bottom3(View view) {
         reset();
-        fm.beginTransaction().replace(R.id.main_framelayout, t3, "F3").commit();
+        fm.beginTransaction().replace(R.id.main_framelayout, userCenterFragment, "F3").commit();
         btn_tab_bottom3.setImageResource(R.drawable.me_h);
     }
 

@@ -51,7 +51,7 @@
                 android:textColor="#D4F8F4"
                 android:textSize="23sp"
                 android:id="@+id/txt_thesignature"
-                android:layout_above="@+id/linearLayout"
+                android:layout_above="@+id/ll_zan"
                 android:layout_centerHorizontal="true" />
 
             <LinearLayout
@@ -64,7 +64,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/tab3like"
-                android:id="@+id/linearLayout"
+                android:id="@+id/ll_zan"
                 android:gravity="center"
                 >
                 <ImageView

@@ -22,6 +22,11 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs' //就是你放aar的目录地址
+        }
+    }
 }
 
 dependencies {
@@ -33,10 +38,10 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:support-v4:24.0.0'
     compile 'com.facebook.fresco:fresco:0.9.0+'
-//    推流jar
+    //    推流jar开始
     compile files('libs/lecloud_Android_mobile_live_push_SDK_v1.1.0_stable.jar')
-    //    推流jar
-    //    直播播放jar
+    //    推流jar结束
+    //    直播播放jar开始
     compile files('libs/AdModule.jar')
     compile files('libs/avdsmart_sdk.jar')
     compile files('libs/cmf-sdk-1.0.17.jar')
@@ -46,10 +51,16 @@ dependencies {
     compile files('libs/org.apache.http.legacy.jar')
     compile files('libs/playersdk_2016_04_25_17_v4.0.1_release.jar')
     compile files('libs/VideoTracker.jar')
-    //    直播播放jar
+    //    直播播放jar结束
     compile 'com.android.support:design:23.4.0'
     compile files('libs/okio-1.8.0.jar')
     compile files('libs/okhttp-3.2.0.jar')
+    //    tencent的开始
     compile files('libs/open_sdk_r5756.jar')
-    compile files('libs/weibosdkcore_release.jar')
+    //    tencent的结束
+    //    mob短信开始
+    compile files('libs/MobCommons-2016.0624.1326.jar')
+    compile files('libs/MobTools-2016.0624.1326.jar')
+    compile name: 'SMSSDK-2.1.0', ext: 'aar'
+    //    mob短信结束
 }
