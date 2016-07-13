@@ -1,10 +1,12 @@
 package com.wxgh.livehappy.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +16,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.model.ReturnJson;
+import com.wxgh.livehappy.model.Users;
+import com.wxgh.livehappy.utils.ConstantManger;
+import com.wxgh.livehappy.utils.StaticManger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -28,7 +47,7 @@ public class PhoneLoginVerificationCode extends Fragment {
     private EditText et_phone, et_verificationcode;//手机号，验证码
     private ImageView iv_get_sms_code;//获取短信验证码按钮
     private TextView tv_login;//登陆按钮
-    private String phoneNum, SMSCode;//手机号，短信验证码
+    private String phoneNum, SMSCode, password;//手机号，短信验证码,密码
 
 
     @Override
@@ -39,9 +58,23 @@ public class PhoneLoginVerificationCode extends Fragment {
 
         return view;
     }
-    public void getPassword(){
 
+    /**
+     * 第一次登录获取密码
+     */
+    public void getPassword() {
+        final EditText editText = new EditText(getActivity());
+        new AlertDialog.Builder(getActivity()).setTitle("请输入密码").setIcon(
+                android.R.drawable.ic_dialog_info).setView(
+                editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                password = editText.getText().toString();
+            }
+        }).setNegativeButton("取消", null).show();
     }
+
+
     /**
      * 第三方登录
      *
@@ -104,6 +137,90 @@ public class PhoneLoginVerificationCode extends Fragment {
     };
 
     /**
+     * 根据手机号查询用户是否已存在，存在登录成功，不存在注册
+     *
+     * @param phone
+     */
+    public void selectUserByPhone(final String phone) {
+        String url = ConstantManger.SERVER_IP + ConstantManger.SELECT_BY_PHONE;
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    if (jsonObject != null) {
+                        if (jsonObject.getInt("error") == 200) {//登录成功
+                            Users user = new Gson().fromJson(jsonObject.get("users").toString(), Users.class);
+                            if (user != null) {
+                                //登陆成功操作
+                            }
+
+                        } else if (jsonObject.getInt("error") == 201) {//用户不存在
+                            getPassword();
+                            if (password != null && !password.equals("") && password.length() >= 6) {
+                                insertUserByPhoneAndPassword(phone);
+                            }
+                        } else if (jsonObject.getInt("error") == 202) {//用户已在线
+
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+
+    /**
+     * 根据手机号和密码注册
+     */
+    public void insertUserByPhoneAndPassword(String phone) {
+        String url = ConstantManger.SERVER_IP + ConstantManger.INSERT_USERS_INFO;
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder().add("Phone", phone).add("Password", password).build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                ReturnJson returnJson = new Gson().fromJson(json, ReturnJson.class);
+                if (returnJson != null) {
+                    if (returnJson.getError() == 200 && returnJson.getUsers() != null) {//获取用户信息成功
+                        StaticManger.user = returnJson.getUsers().get(0);
+                        loginOk();
+                    } else if (returnJson.getError() == 201) {//注册失败
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 登陆成功操作
+     */
+    public void loginOk() {
+
+    }
+
+
+    /**
      * 初始化短信
      */
     private void initSMS() {
@@ -141,15 +258,9 @@ public class PhoneLoginVerificationCode extends Fragment {
                     }
                     break;
                 case R.id.tv_login://登陆
-                    phoneNum = et_phone.getText().toString().trim();
-
-                    if (phoneNum.equals("") || phoneNum.length() != 11) {
-                        Toast.makeText(getContext(), "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-                        return;
+                    if (getPhoneNum() && getSMSCode()) {
+                        SMSSDK.submitVerificationCode("86", phoneNum, SMSCode);
                     }
-
-                    SMSSDK.submitVerificationCode("86", phoneNum, SMSCode);
-                    Log.d("sms", "tijiao");
                     break;
             }
         }
