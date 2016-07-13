@@ -25,7 +25,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import com.wxgh.livehappy.utiles.Verification;
 
 
 /**
@@ -51,7 +50,7 @@ public class PhoneLoginPassword extends Fragment {
     private void initView() {
         etPhone = (EditText) view.findViewById(R.id.et_phone);
         etPassword = (EditText) view.findViewById(R.id.et_password);
-        tvLogin = (TextView) view.findViewById(R.id.tv_login);
+        tvLogin = (TextView) view.findViewById(R.id.btn_login);
         tvForget = (TextView) view.findViewById(R.id.tv_forget);
 
         tvLogin.setOnClickListener(click);

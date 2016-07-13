@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wxgh.livehappy.LoginChooseActivity;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.UsersInformationActivity;
 import com.wxgh.livehappy.utils.StaticManger;
 
 /**
@@ -32,7 +33,6 @@ public class UserCenterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.user_center_layout, container, false);
-
         initView();
         return view;
     }
@@ -56,13 +56,13 @@ public class UserCenterFragment extends Fragment {
         tv_friendsNumber = (TextView) view.findViewById(R.id.tv_friendsNumber);//朋友数
         tv_themessageNumber = (TextView) view.findViewById(R.id.tv_themessageNumber);//消息数量
         rl_userinfo = (RelativeLayout) view.findViewById(R.id.rl_userinfo);//用户信息
+        rl_userinfo.setOnClickListener(click);
         rl_purse = (RelativeLayout) view.findViewById(R.id.rl_purse);//钱包
         rl_feedback = (RelativeLayout) view.findViewById(R.id.rl_feedback);//反馈
         rl_setting = (RelativeLayout) view.findViewById(R.id.rl_setting);//设置
         ll_zan = (LinearLayout) view.findViewById(R.id.ll_zan);//赞布局
 
         if (StaticManger.user != null) {//已登录
-
             isLogin();
         } else {//未登录
             noLogin();
@@ -79,8 +79,6 @@ public class UserCenterFragment extends Fragment {
         tv_name.setText(StaticManger.user.getUsersinfoName());
         tv_thesignature.setText(StaticManger.user.getUserSignature());
         tv_zan.setText(StaticManger.user.getZan() + "");
-
-
         draweeView.setVisibility(View.VISIBLE);
         tv_thesignature.setVisibility(View.VISIBLE);//签名
         ll_zan.setVisibility(View.VISIBLE);//赞布局
@@ -95,7 +93,6 @@ public class UserCenterFragment extends Fragment {
         tv_fans.setText("0");//粉丝数
         tv_friendsNumber.setText("0");//朋友数
         tv_themessageNumber.setText("0");//消息数量
-
         draweeView.setVisibility(View.INVISIBLE);
         tv_thesignature.setVisibility(View.GONE);//签名
         ll_zan.setVisibility(View.GONE);//赞布局
@@ -118,6 +115,13 @@ public class UserCenterFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.tv_name://单击用户名
                     if (StaticManger.user == null) {//当前用户未登录，跳转登录
+                        startActivityForResult(new Intent(getActivity(), LoginChooseActivity.class), 1);
+                    }
+                    break;
+                case R.id.rl_userinfo:
+                    if (StaticManger.user != null) {//当前用户未登录，跳转登录
+                        startActivityForResult(new Intent(getActivity(), UsersInformationActivity.class), 2);
+                    }else{
                         startActivityForResult(new Intent(getActivity(), LoginChooseActivity.class), 1);
                     }
                     break;

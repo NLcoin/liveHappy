@@ -2,6 +2,7 @@ package com.wxgh.livehappy.utiles;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.Toast;
 
 import com.wxgh.livehappy.view.ViewDialog;
 
@@ -57,7 +58,7 @@ public class Verification {
     /**
      * 创建对话框
      */
-    public static void createDialog1(Context context,String title,String message) {
+    public static void createDialog1(final Context context, String title, String message) {
         // 创建Builder
         ViewDialog.Builder builder = new ViewDialog.Builder(context);
         // 设置标题
@@ -65,13 +66,19 @@ public class Verification {
         // 设置信息
         builder.setMessage(message);
         // 设置Positive按钮点击监听
-        builder.setPositiveButton("确定",
+        builder.setPositiveButton("取消",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
+        builder.setNegativeButton("修改密码", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(context,"修改密码！",Toast.LENGTH_LONG).show();
+            }
+        });
         // 设置对话框关闭监听
         builder.setCancelable(true);
         // 创建对话框并显示

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F3F6"
+    >
+    <include layout="@layout/item_bar_top" />
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout">
+            <TextView style="@style/usertext" android:text="昵称"/>
+            <EditText style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout">
+            <TextView style="@style/usertext" android:text="签名"/>
+            <EditText style="@style/img_arrow" android:layout_weight="1" android:text="我是周少我怕谁？" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout">
+            <TextView style="@style/usertext" android:text="性别"/>
+            <TextView style="@style/img_arrow" android:layout_weight="1" android:text="男" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout">
+            <TextView style="@style/usertext" android:text="年龄"/>
+            <TextView style="@style/img_arrow" android:layout_weight="1" android:text="250" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
