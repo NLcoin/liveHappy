@@ -40,16 +40,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+        </activity>
+        <activity android:name=".LoginChooseActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginChooseActivity"></activity>
         <activity android:name=".PhoneLoginActivity"></activity>
-
-
         <!--直播推流内容开始-->
         <activity android:name=".le_push.MainActivity">
             <!--<intent-filter>-->

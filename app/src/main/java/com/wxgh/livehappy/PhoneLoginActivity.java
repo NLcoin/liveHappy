@@ -24,14 +24,11 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
     //切换的页面
     private PhoneLoginPassword phoneLoginPassword;
     private PhoneLoginVerificationCode phoneLoginVerificationCode;
-
     //手机登录 验证码登录
     private TextView txt_password;
     private TextView txt_Verificationcode;
     private LinearLayout lin_left;
     private LinearLayout lin_reight;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +39,11 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
     }
-
     public void init(){
         mViewPager=(ViewPager)findViewById(R.id.phone_login_vp);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
             public void onPageSelected(int position) {
                 reset();
@@ -69,18 +62,14 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
-
         txt_password=(TextView)findViewById(R.id.txt_password);
         txt_Verificationcode=(TextView)findViewById(R.id.txt_Verificationcode);
-
         lin_left=(LinearLayout)findViewById(R.id.lin_left);
         lin_left.setOnClickListener(this);
         lin_reight=(LinearLayout)findViewById(R.id.lin_reight);
         lin_reight.setOnClickListener(this);
-
         initFragment();
     }
-
     /**
      * 初始化mFragments 数据 页面
      */
@@ -90,7 +79,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
         mFragments.add(phoneLoginPassword);
         mFragments.add(phoneLoginVerificationCode);
     }
-
     /**
      * 重置1
      */
@@ -98,7 +86,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
         txt_password.setTextColor(Color.parseColor("#757575"));
         txt_Verificationcode.setTextColor(Color.parseColor("#757575"));
     }
-
     /**
      * 单击事件
      * @param v
