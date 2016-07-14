@@ -63,24 +63,19 @@ public class PhoneLoginVerificationCode extends Fragment {
      * 第一次登录获取密码
      */
     public void getPassword() {
-        // Verification.getPass(getContext(), "设置密码");
+        StaticManger.destroyDialog();
         final EditText editText = new EditText(getActivity());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("设置密码");
-        //    通过LayoutInflater来加载一个xml的布局文件作为一个View对象
-//        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog, null);
         //    设置我们自己定义的布局文件作为弹出框的Content
         builder.setView(editText);
-
-//        final EditText username = (EditText)view.findViewById(R.id.username);
-//        final EditText password = (EditText)view.findViewById(R.id.password);
-
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 password = editText.getText().toString();
                 if (Verification.isPassword(password)) {
                     insertUserByPhoneAndPassword(phoneNum);
+                    StaticManger.showProgressDialog(getContext());
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getContext(), "请输入正确的密码", Toast.LENGTH_SHORT).show();
@@ -89,20 +84,7 @@ public class PhoneLoginVerificationCode extends Fragment {
         });
 
         builder.show();
-//        new AlertDialog.Builder(getActivity()).setTitle("设置密码").setIcon(
-//                android.R.drawable.ic_dialog_info).setView(
-//                editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                password = editText.getText().toString();
-//                if (Verification.isPassword(password)) {
-//                    insertUserByPhoneAndPassword(phoneNum);
-//                    dialog.dismiss();
-//                } else {
-//                    Toast.makeText(getContext(), "请输入正确的密码", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        }).show();
+
     }
 
     /**
@@ -120,6 +102,7 @@ public class PhoneLoginVerificationCode extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(data.toString());
                         selectUserByPhone(jsonObject.getString("phone"));
+                        StaticManger.showProgressDialog(getContext());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -128,8 +111,9 @@ public class PhoneLoginVerificationCode extends Fragment {
                     //获取验证码成功
                     if ((Boolean) data) {
                         //验证成功，此号码在本设备上验证过了，不会再发短信
-
                         handler.sendEmptyMessage(1);//将smssdk注册代码注销
+                        handler1.sendEmptyMessage(2);
+                        selectUserByPhone(phoneNum);
                     }
 //                    Log.d("sms", "EVENT_GET_VERIFICATION_CODE--------------" + data + "");
                 } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
@@ -161,30 +145,21 @@ public class PhoneLoginVerificationCode extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    if (jsonObject != null) {
-                        if (jsonObject.getInt("error") == 200) {//登录成功
-                            Users user = new Gson().fromJson(jsonObject.get("users").toString(), Users.class);
-                            if (user != null) {
-                                //登陆成功操作
-                                StaticManger.saveUser(getContext(), user);
-                                loginOk();
-                            }
-
-                        } else if (jsonObject.getInt("error") == 201) {//用户不存在
-                            handler1.sendEmptyMessage(3);
-//                            getPassword();
-                            if (password != null && !password.equals("") && password.length() >= 6) {
-                                insertUserByPhoneAndPassword(phone);
-                            }
-                        } else if (jsonObject.getInt("error") == 202) {//用户已在线
-
+                ReturnJson returnJson = new Gson().fromJson(json, ReturnJson.class);
+                if (returnJson != null) {
+                    if (returnJson.getError() == 200) {//登录成功
+                        Users user = returnJson.getUsers().get(0);
+                        if (user != null) {
+                            //登陆成功操作
+                            StaticManger.saveUser(getContext(), user);
+                            loginOk();
                         }
-                    }
+                    } else if (returnJson.getError() == 201) {//用户不存在
+                        handler1.sendEmptyMessage(3);//第一次登陆、设置密码
+//                            getPassword();
+                    } else if (returnJson.getError() == 202) {//用户已在线
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    }
                 }
 
             }
@@ -195,7 +170,10 @@ public class PhoneLoginVerificationCode extends Fragment {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 3) {
-                getPassword();
+                getPassword();//用户第一次登陆设置密码
+            }
+            if (msg.what == 2) {//显示showdialog
+                StaticManger.showProgressDialog(getContext());
             }
 
             return false;
@@ -236,7 +214,7 @@ public class PhoneLoginVerificationCode extends Fragment {
      */
     public void loginOk() {
         getActivity().setResult(2);
-
+        StaticManger.destroyDialog();
         getActivity().finish();
     }
 
@@ -279,11 +257,9 @@ public class PhoneLoginVerificationCode extends Fragment {
                     }
                     break;
                 case R.id.tv_login://登陆
-                    getPhoneNum();
-                    selectUserByPhone(phoneNum);
-//                    if (getPhoneNum() && getSMSCode()) {
-//                        SMSSDK.submitVerificationCode("86", phoneNum, SMSCode);
-//                    }
+                    if (getPhoneNum() && getSMSCode()) {
+                        SMSSDK.submitVerificationCode("86", phoneNum, SMSCode);
+                    }
                     break;
             }
         }

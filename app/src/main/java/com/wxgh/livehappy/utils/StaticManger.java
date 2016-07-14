@@ -84,7 +84,7 @@ public class StaticManger {
         //设置进度条风格，风格为圆形，旋转的
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //设置ProgressDialog 提示信息
-        dialog.setMessage("登录中...");
+        dialog.setMessage("请稍候...");
         //设置ProgressDialog 的进度条是否不明确
         dialog.setIndeterminate(false);
         //设置ProgressDialog 是否可以按退回按键取消
