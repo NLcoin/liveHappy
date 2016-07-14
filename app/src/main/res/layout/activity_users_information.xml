@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,7 +8,7 @@
     >
     <include layout="@layout/item_bar_top" />
     <!-- 全圆角-->
-    <LinearLayout style="@style/wrap_layout">
+    <LinearLayout style="@style/wrap_layout" android:id="@+id/touxiangupdate">
         <LinearLayout style="@style/single_layout">
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -18,6 +19,15 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     />
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/img_userhead"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    fresco:actualImageScaleType="focusCrop"
+                    fresco:roundAsCircle="true"
+                    fresco:roundedCornerRadius="180dp" />
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -34,29 +44,25 @@
     <LinearLayout style="@style/wrap_layout">
         <LinearLayout style="@style/single_layout">
             <TextView style="@style/usertext" android:text="手机号"/>
-            <EditText style="@style/img_arrow" android:layout_weight="1" android:text="18611156716" />
+            <TextView android:id="@+id/txt_user_phone" style="@style/img_arrow" android:layout_weight="1" android:text="18611156716" />
         </LinearLayout>
     </LinearLayout>
     <!-- 全圆角-->
     <LinearLayout style="@style/wrap_layout">
-        <LinearLayout style="@style/single_layout">
+        <LinearLayout style="@style/single_layout"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <TextView style="@style/usertext" android:text="昵称"/>
-            <EditText style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
+            <EditText android:id="@+id/edit_username" style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
         </LinearLayout>
     </LinearLayout>
-    <!-- 全圆角-->
-    <LinearLayout style="@style/wrap_layout">
-        <LinearLayout style="@style/single_layout">
-            <TextView style="@style/usertext" android:text="签名"/>
-            <EditText style="@style/img_arrow" android:layout_weight="1" android:text="我是周少我怕谁？" />
-        </LinearLayout>
-    </LinearLayout>
+
 
     <!-- 全圆角-->
     <LinearLayout style="@style/wrap_layout">
         <LinearLayout style="@style/single_layout">
             <TextView style="@style/usertext" android:text="性别"/>
-            <TextView style="@style/img_arrow" android:layout_weight="1" android:text="男" />
+            <TextView android:id="@+id/txt_usergender" android:textColor="@color/black" style="@style/img_arrow" android:layout_weight="1" android:text="男" />
         </LinearLayout>
     </LinearLayout>
 
@@ -64,8 +70,16 @@
     <LinearLayout style="@style/wrap_layout">
         <LinearLayout style="@style/single_layout">
             <TextView style="@style/usertext" android:text="年龄"/>
-            <TextView style="@style/img_arrow" android:layout_weight="1" android:text="250" />
+            <EditText android:id="@+id/txt_usersex" android:inputType="number"  style="@style/img_arrow" android:layout_weight="1" android:text="250" />
         </LinearLayout>
     </LinearLayout>
-
+    <!-- 全圆角-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <TextView style="@style/usertext" android:text="签名"/>
+            <EditText android:id="@+id/edit_userSignature" style="@style/img_arrow" android:layout_weight="1" android:text="我是周少我怕谁？" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

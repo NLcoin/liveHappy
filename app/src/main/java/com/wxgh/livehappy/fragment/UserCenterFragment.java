@@ -87,8 +87,6 @@ public class UserCenterFragment extends Fragment {
         tv_name.setText(user.getUsersinfoName());
         tv_thesignature.setText(user.getUserSignature());
         tv_zan.setText(user.getZan() + "");
-
-
         draweeView.setVisibility(View.VISIBLE);
         tv_thesignature.setVisibility(View.VISIBLE);//签名
         ll_zan.setVisibility(View.VISIBLE);//赞布局
@@ -105,7 +103,6 @@ public class UserCenterFragment extends Fragment {
         tv_fans.setText("0");//粉丝数
         tv_friendsNumber.setText("0");//朋友数
         tv_themessageNumber.setText("0");//消息数量
-
         draweeView.setVisibility(View.INVISIBLE);
         tv_thesignature.setVisibility(View.GONE);//签名
         ll_zan.setVisibility(View.GONE);//赞布局

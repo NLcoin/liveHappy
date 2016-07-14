@@ -57,6 +57,16 @@ public class Verification {
         return y + "年" + m + "月" + d + "日";
     }
 
+    /**
+     * 隐藏电话号码中间四位
+     *
+     * @param phoneNum
+     * @return
+     */
+    public static String hidePhoneNum(String phoneNum)
+    {
+        return phoneNum.substring(0, 3) + "****" + phoneNum.substring(7, phoneNum.length());
+    }
 
     /**
      * 创建对话框
