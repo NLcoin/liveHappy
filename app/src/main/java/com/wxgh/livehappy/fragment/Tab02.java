@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +46,7 @@ public class Tab02 extends Fragment {
         setOnlistener();
         //移动直播生成推流地址时用到的Model
         createStreamData = new CreateStreamData(getContext());
+//        createStreamData.setVertical(false);
         return view;
     }
 
@@ -55,7 +55,7 @@ public class Tab02 extends Fragment {
     }
 
     public void initView() {
-        tv_play = (Button) view.findViewById(R.id.tv_play);
+        tv_play = (TextView) view.findViewById(R.id.tv_play);
         et_title = (EditText) view.findViewById(R.id.et_title);
         et_title.setOnClickListener(click);
     }
@@ -65,7 +65,7 @@ public class Tab02 extends Fragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btn_play:
+                case R.id.tv_play:
                     addPlay();
                     pushStream();
                     break;

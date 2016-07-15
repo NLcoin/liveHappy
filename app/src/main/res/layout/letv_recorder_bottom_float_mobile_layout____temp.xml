@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_marginTop="10dp"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="#d9f9d9">
 
     <ImageView
         android:id="@+id/imgV_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="13dp"
         android:src="@drawable/letv_recorder_set" />
 
     <TextView
         android:id="@+id/tv_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginLeft="27dp"
+        android:layout_toLeftOf="@id/imgV_setting"
         android:background="@drawable/letv_recorder_rate_button"
         android:gravity="center"
         android:text="标清"
@@ -26,21 +28,24 @@
         android:id="@+id/imgV_flashlight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="27dp"
         android:src="@drawable/letv_recorder_flash_light_close" />
 
     <ImageView
         android:id="@+id/imgV_voice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginLeft="27dp"
+        android:layout_toRightOf="@id/imgV_flashlight"
         android:src="@drawable/letv_recorder_voise_open" />
 
     <ImageView
         android:id="@+id/imgV_postposition_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginLeft="27dp"
+        android:layout_toRightOf="@id/imgV_voice"
         android:src="@drawable/letv_recorder_postposition_camera" />
 
-</LinearLayout>
+</RelativeLayout>

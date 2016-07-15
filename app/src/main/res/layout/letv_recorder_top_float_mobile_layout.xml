@@ -4,15 +4,16 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:layout_marginTop="12dp"
-    android:gravity="center_vertical" >
+    android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/imgB_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
         android:layout_alignParentLeft="true"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/letv_recorder_arrow" />
 
     <TextView
@@ -40,8 +41,8 @@
 
     <ImageView
         android:id="@+id/imgV_thumd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_centerVertical="true"
         android:layout_marginRight="7dp"
         android:layout_toLeftOf="@id/tv_rec"
