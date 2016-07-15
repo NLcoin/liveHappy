@@ -52,7 +52,10 @@
                     android:layout_centerHorizontal="true"
                     android:text="Ta好像忘记写签名了"
                     android:textColor="#D4F8F4"
-                    android:textSize="23sp"
+                    android:textSize="19sp"
+                    android:width="300dp"
+                    android:singleLine="true"
+                    android:gravity="center"
                     android:visibility="gone" />
 
                 <LinearLayout

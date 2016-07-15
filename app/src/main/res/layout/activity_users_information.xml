@@ -79,7 +79,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
             <TextView style="@style/usertext" android:text="签名"/>
-            <EditText android:id="@+id/edit_userSignature" style="@style/img_arrow" android:layout_weight="1" android:text="我是周少我怕谁？" />
+            <EditText android:id="@+id/edit_userSignature" style="@style/img_arrow" android:layout_weight="1" android:text="艹万翔" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

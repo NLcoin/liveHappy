@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wxgh.livehappy.model.Users;
 import com.wxgh.livehappy.utils.KeyBoardUtils;
@@ -33,6 +34,7 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_users_information);
         user = StaticManger.getCurrentUser(this);
         initView();

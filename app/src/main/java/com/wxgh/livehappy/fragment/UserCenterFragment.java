@@ -83,7 +83,9 @@ public class UserCenterFragment extends Fragment {
             return;
         }
         Uri uri = Uri.parse(StaticManger.getImgPath(user.getUsersinfoPhoto()));
+
         draweeView.setImageURI(uri);
+
         tv_name.setText(user.getUsersinfoName());
         tv_thesignature.setText(user.getUserSignature());
         tv_zan.setText(user.getZan() + "");
