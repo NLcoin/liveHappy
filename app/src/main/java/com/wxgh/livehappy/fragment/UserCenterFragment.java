@@ -120,6 +120,9 @@ public class UserCenterFragment extends Fragment {
             else
                 noLogin();
         }
+        if (requestCode == 2){
+            isLogin();
+        }
     }
 
     View.OnClickListener click = new View.OnClickListener() {

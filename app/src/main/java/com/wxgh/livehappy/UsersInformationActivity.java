@@ -8,15 +8,20 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.wxgh.livehappy.app.MyApplication;
 import com.wxgh.livehappy.model.Users;
 import com.wxgh.livehappy.utils.ConstantManger;
 import com.wxgh.livehappy.utils.FileUtil;
@@ -25,7 +30,19 @@ import com.wxgh.livehappy.utils.StaticManger;
 import com.wxgh.livehappy.utils.Verification;
 import com.wxgh.livehappy.view.SelectPicPopupWindow;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class UsersInformationActivity extends Activity implements View.OnClickListener {
     private Users user = null;
@@ -49,6 +66,7 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
     private static final int REQUESTCODE_TAKE = 1; // 相机拍照标记
     private static final int REQUESTCODE_CUTTING = 2; // 图片裁切标记
     private String urlpath; // 图片本地路径
+    private ImageView imageButton2;//返回按钮
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +75,12 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
         user = StaticManger.getCurrentUser(this);
         initView();
     }
+
     /**
      * 初始化控件 和数据
      */
     private void initView() {
+        imageButton2 = (ImageView) findViewById(R.id.imageButton2);
         touxiangupdate = (RelativeLayout) findViewById(R.id.touxiangupdate);
         draweeView = (SimpleDraweeView) findViewById(R.id.img_header);//头像
         txt_user_phone = (TextView) findViewById(R.id.txt_user_phone);
@@ -68,8 +88,8 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
         edit_userSignature = (EditText) findViewById(R.id.edit_userSignature);
         txt_userage = (TextView) findViewById(R.id.txt_usergender);
         txt_usersex = (EditText) findViewById(R.id.txt_usersex);
-        create= (TextView) findViewById(R.id.create);
-        if (!"".equals(user.getUsersinfoPhone())){
+        create = (TextView) findViewById(R.id.create);
+        if (!"".equals(user.getUsersinfoPhone())) {
             txt_user_phone.setText(Verification.hidePhoneNum(user.getUsersinfoPhone()));
         }
         edit_username.setText(user.getUsersinfoName());
@@ -91,32 +111,112 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.touxiangupdate:
                 //实例化SelectPicPopupWindow
-                menuWindow = new SelectPicPopupWindow(UsersInformationActivity.this, itemsOnClick,"拍照","相册");
+                menuWindow = new SelectPicPopupWindow(UsersInformationActivity.this, itemsOnClick, "拍照", "相册");
                 //显示窗口
-                menuWindow.showAtLocation(UsersInformationActivity.this.findViewById(R.id.main), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                menuWindow.showAtLocation(UsersInformationActivity.this.findViewById(R.id.main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.edit_username:
-                KeyBoardUtils.openKeybord(edit_username,this);
+                KeyBoardUtils.openKeybord(edit_username, this);
                 break;
             case R.id.edit_userSignature:
-                KeyBoardUtils.openKeybord(edit_username,this);
+                KeyBoardUtils.openKeybord(edit_username, this);
                 break;
             case R.id.txt_usergender:
                 //实例化SelectPicPopupWindow
-                menuWindow = new SelectPicPopupWindow(UsersInformationActivity.this, itemsOnClickGender,"男","女");
+                menuWindow = new SelectPicPopupWindow(UsersInformationActivity.this, itemsOnClickGender, "男", "女");
                 //显示窗口
-                menuWindow.showAtLocation(UsersInformationActivity.this.findViewById(R.id.main), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                menuWindow.showAtLocation(UsersInformationActivity.this.findViewById(R.id.main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.txt_usersex:
-                KeyBoardUtils.openKeybord(edit_username,this);
+                KeyBoardUtils.openKeybord(edit_username, this);
                 break;
             case R.id.create:
+                String UsersinfoName = edit_username.getText().toString();
+                String UserSignature = edit_userSignature.getText().toString();
+                String usergender = txt_userage.getText().toString();
+                String usersex = txt_usersex.getText().toString();
+                if ("".equals(UsersinfoName) || UsersinfoName.length() > 6) {
+                    Toast.makeText(UsersInformationActivity.this, "用户名不符合规范!要求长度大于0小于6!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (UserSignature.length() > 20) {
+                    Toast.makeText(UsersInformationActivity.this, "签名不符合规范!要求长度小于20!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int age = Integer.parseInt(usersex);
+                if (age <= 0 || age > 100) {
+                    Toast.makeText(UsersInformationActivity.this, "年龄要大于0小于100!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Users users = new Users();
+                users.setUsersinfoName(UsersinfoName);
+                users.setUserSignature(UserSignature);
+                users.setUsersinfoSex(usersex);
+                users.setUsersinfo_Age(usergender);
+                users.setUsersinfoid(user.getUsersinfoid());
+                users.setUsersinfoPhoto(user.getUsersinfoPhoto());
+                users.setBalance(user.getBalance());
+                users.setToken(user.getToken());
+                users.setZan(user.getZan());
+                users.setUsersinfoPhone(user.getUsersinfoPhone());
+                StaticManger.saveUser(UsersInformationActivity.this, users);
+                String url = ConstantManger.SERVER_IP + ConstantManger.UPDATEUSERSINFOPICPATH;
+                RequestBody requestBody = new FormBody.Builder().add("UserName", UsersinfoName).add("UserGender", usergender).add("UserSignature", UserSignature).add("UserSex", usersex)
+                        .add("PicPath", user.getUsersinfoPhoto()).add("UserID", user.getUsersinfoid())
+                        .build();
+                Request request = new Request.Builder().url(url).post(requestBody).build();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        handler.sendEmptyMessage(0);
+                    }
 
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String json = response.body().string();
+                        try {
+                            JSONObject a = new JSONObject(json);
+                            String error = a.getString("error");
+                            if ("200".equals(error)) {//成功
+                                handler.sendEmptyMessage(2);
+                            } else {
+                                handler.sendEmptyMessage(1);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                break;
+            case R.id.imageButton2:
+                finish();
                 break;
         }
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_LONG).show();
+                    break;
+                case 1:
+                    Toast.makeText(MyApplication.getContext(), "修改失败！", Toast.LENGTH_LONG).show();
+                    break;
+                case 2:
+                    Toast.makeText(MyApplication.getContext(), "修改成功！", Toast.LENGTH_LONG).show();
+                    UsersInformationActivity.this.finish();
+                    break;
+            }
+        }
+    };
+
+
     //为修改头像弹出窗口实现监听类
-    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
@@ -143,7 +243,7 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
         }
     };
     //为改变性别弹出窗口实现监听类
-    private View.OnClickListener itemsOnClickGender = new View.OnClickListener(){
+    private View.OnClickListener itemsOnClickGender = new View.OnClickListener() {
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
@@ -214,11 +314,13 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(getResources(), photo);
-            urlpath = FileUtil.saveFile(UsersInformationActivity.this, "azxcv.jpg", photo);
-            File file=new File(urlpath);
+            urlpath = FileUtil.saveFile(UsersInformationActivity.this, user.getUsersinfoid() + "20160715045155.jpg", photo);
+            File file = new File(urlpath);
             Uri uri = Uri.fromFile(file);
             draweeView.setImageURI(uri);
-            Verification.uploadImg(ConstantManger.SERVER_IP+ConstantManger.UPDATE_IMG,file,UsersInformationActivity.this,user);
+            user.setUsersinfoPhoto(user.getUsersinfoid() + "20160715045155.jpg");
+            Verification.uploadImg(ConstantManger.SERVER_IP + ConstantManger.UPDATE_IMG, file, UsersInformationActivity.this, user);
         }
     }
+
 }

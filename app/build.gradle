@@ -63,4 +63,5 @@ dependencies {
     compile files('libs/MobTools-2016.0624.1326.jar')
     compile name: 'SMSSDK-2.1.0', ext: 'aar'
     //    mob短信结束
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

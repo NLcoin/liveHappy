@@ -54,7 +54,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
             <TextView style="@style/usertext" android:text="昵称"/>
-            <EditText android:id="@+id/edit_username" style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
+            <EditText android:id="@+id/edit_username" android:singleLine="true" style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
         </LinearLayout>
     </LinearLayout>
 
