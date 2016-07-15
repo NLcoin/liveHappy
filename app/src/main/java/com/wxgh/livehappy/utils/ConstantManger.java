@@ -12,4 +12,5 @@ public class ConstantManger {
     public static final String USER_LOGIN = "userLogin.ssm";//手机密码登陆   参数：?UserPhone =1&PassWord =1
     public static final String UPDATE_IMG="addShareImage.ssm";//单图片上传
     public static final String UPDATEUSERSINFOPICPATH="updateUsersInfo.ssm";//修改个人信息
+    public static final String SELECTEARNINGSBYTODAY="selectEarningsByToday.ssm"; //今日账单
 }

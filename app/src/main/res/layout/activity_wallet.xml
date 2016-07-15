@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_grey"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_bar_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:text="我的余额:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="0元"
+            android:id="@+id/balance"
+            android:textSize="25sp" />
+
+        <ImageView
+            style="@style/common_horizontal_division_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- 全圆角-->
+            <LinearLayout style="@style/wrap_layout">
+
+                <LinearLayout style="@style/single_layout">
+
+                    <TextView
+                        style="@style/usertext"
+                        android:layout_weight="1"
+                        android:text="今日收入：" />
+
+                    <TextView
+                        android:id="@+id/txt_income"
+                        style="@style/img_arrow"
+                        android:singleLine="true"
+                        android:text="0元" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/arrow"
+                        android:layout_centerVertical="true"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                style="@style/common_horizontal_division_line_style"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
+            <!-- 全圆角-->
+            <LinearLayout style="@style/wrap_layout">
+
+                <LinearLayout style="@style/single_layout">
+
+                    <TextView
+                        style="@style/usertext"
+                        android:layout_weight="1"
+                        android:text="今日支出：" />
+
+                    <TextView
+                        android:id="@+id/txt_spending"
+                        style="@style/img_arrow"
+                        android:singleLine="true"
+                        android:text="0元" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/arrow"
+                        android:layout_centerVertical="true"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/light_grey"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="提现"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="充值"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

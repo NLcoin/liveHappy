@@ -23,4 +23,5 @@
     <color name="blue">#6A42EC</color>
     <color name="blue_tran">#CC6A42EC</color>
     <!--直播播放end-->
+    <color name="light_grey">#CFD0CD</color>
 </resources>

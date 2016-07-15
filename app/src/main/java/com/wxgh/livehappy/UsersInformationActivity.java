@@ -98,6 +98,7 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
         txt_usersex.setText(user.getUsersinfoSex());
         Uri uri = Uri.parse(StaticManger.getImgPath(user.getUsersinfoPhoto()));
         draweeView.setImageURI(uri);
+        imageButton2.setOnClickListener(this);
         touxiangupdate.setOnClickListener(this);
         edit_username.setOnClickListener(this);
         edit_userSignature.setOnClickListener(this);
@@ -194,7 +195,6 @@ public class UsersInformationActivity extends Activity implements View.OnClickLi
                 break;
         }
     }
-
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
