@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F3F6"
+    >
+    <!-- 顶部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp">
+
+        <ImageView
+            android:id="@+id/imageButton2"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="9dp"
+            android:src="@drawable/out2"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="9dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:id="@+id/textView2"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <!-- 横线  分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B3B3B3"
+        />
+    <!-- 消息提醒  清除缓存  版本信息  帮助  关于我们-->
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/single_layout"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <TextView style="@style/usertext" android:text="消息提醒"/>
+            <EditText android:id="@+id/edit_username" android:singleLine="true" style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
