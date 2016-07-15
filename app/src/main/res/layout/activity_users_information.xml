@@ -5,14 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F0F3F6"
+    android:id="@+id/main"
     >
     <include layout="@layout/item_bar_top" />
     <!-- 全圆角-->
-    <LinearLayout style="@style/wrap_layout" android:id="@+id/touxiangupdate">
+    <LinearLayout style="@style/wrap_layout">
         <LinearLayout style="@style/single_layout">
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent" android:id="@+id/touxiangupdate" android:clickable="true">
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -20,7 +21,7 @@
                     android:layout_centerVertical="true"
                     />
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/img_userhead"
+                    android:id="@+id/img_header"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
@@ -44,7 +45,7 @@
     <LinearLayout style="@style/wrap_layout">
         <LinearLayout style="@style/single_layout">
             <TextView style="@style/usertext" android:text="手机号"/>
-            <TextView android:id="@+id/txt_user_phone" style="@style/img_arrow" android:layout_weight="1" android:text="18611156716" />
+            <TextView android:id="@+id/txt_user_phone" style="@style/img_arrow" android:layout_weight="1" android:text="" />
         </LinearLayout>
     </LinearLayout>
     <!-- 全圆角-->

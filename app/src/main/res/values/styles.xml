@@ -124,5 +124,9 @@
     <style name="single_layout" parent="base_layout">
         <item name="android:background">@drawable/single_layout_selector</item>
     </style>
-
+    <!-- 底部弹出窗口 -->
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
 </resources>
