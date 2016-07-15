@@ -48,11 +48,10 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginChooseActivity"></activity>
+        <activity android:name=".LoginChooseActivity" />
         <activity android:name=".PhoneLoginActivity" />
 
         <!-- 直播推流内容开始 -->
@@ -105,7 +104,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- 短信结束 -->
-        <activity android:name=".UsersInformationActivity"></activity>
+        <activity android:name=".UsersInformationActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -114,9 +113,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".WalletActivity"></activity>
+        <activity android:name=".FeedbackActivity" >
 
-        <activity android:name=".FeedbackActivity"></activity>
+        </activity>
+        <activity android:name=".SetUpActivity">
+
+        </activity>
     </application>
 
 </manifest>

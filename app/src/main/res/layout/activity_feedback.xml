@@ -57,6 +57,9 @@
             android:textCursorDrawable="@null"
             android:background="@null"
             android:textColor="#808080"
+            android:maxLength="120"
+            android:maxLines="6"
+            android:padding="10dp"
             />
 
     </LinearLayout>
