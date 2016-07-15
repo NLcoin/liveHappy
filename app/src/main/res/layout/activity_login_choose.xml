@@ -1,118 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <ImageView
+        android:id="@+id/image_log"
         android:layout_width="170dp"
         android:layout_height="170dp"
-        android:background="@drawable/login"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        app:layout_marginTopPercent="13%"
-        android:id="@+id/image_log"
-        />
+        android:background="@drawable/login"
+        app:layout_marginTopPercent="13%" />
+
     <TextView
         android:id="@+id/txt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="乐 直 播"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/image_log"
-        android:textSize="40sp"
+        android:layout_centerHorizontal="true"
+        android:text="乐 直 播"
         android:textColor="#505050"
-        />
+        android:textSize="40sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_heightPercent="40%"
         android:layout_alignParentBottom="true"
-        >
+        android:orientation="vertical"
+        app:layout_heightPercent="40%">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#7F7F7F"
-            android:text="请选择登录方式"
-            android:textSize="17sp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            />
+            android:text="请选择登录方式"
+            android:textColor="#7F7F7F"
+            android:textSize="17sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
-            android:orientation="horizontal"
-            >
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
             <!--新浪-->
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:gravity="center"
                 android:id="@+id/lin_xin"
-                >
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/xinliang"
-                    />
+                    android:src="@drawable/xinliang" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="新浪"
-                    android:textColor="#757575"
                     android:layout_marginTop="10dp"
-                    />
+                    android:text="新浪"
+                    android:textColor="#757575" />
             </LinearLayout>
             <!--QQ-->
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:gravity="center"
                 android:id="@+id/lin_qq"
-                >
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/qq"
-                    />
+                    android:src="@drawable/qq" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="QQ"
-                    android:textColor="#757575"
                     android:layout_marginTop="10dp"
-                    />
+                    android:text="QQ"
+                    android:textColor="#757575" />
             </LinearLayout>
             <!--新浪-->
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:gravity="center"
                 android:id="@+id/lin_phone"
-                >
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/phone"
-                    />
+                    android:src="@drawable/phone" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="手机"
-                    android:textColor="#757575"
                     android:layout_marginTop="10dp"
-                    />
+                    android:text="手机"
+                    android:textColor="#757575" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

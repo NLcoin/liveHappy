@@ -46,7 +46,7 @@
         android:textSize="20sp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/txt_begin"
+        android:id="@+id/tv_play"
         android:textColor="#8EE2D3"
         android:background="@drawable/tab02_begin"
         android:gravity="center"

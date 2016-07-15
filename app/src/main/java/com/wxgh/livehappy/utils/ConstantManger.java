@@ -10,6 +10,7 @@ public class ConstantManger {
     public static final String SELECT_BY_PHONE = "selectByPhone.ssm";//根据手机号查询用户信息   参数：?UserPhone =1
     public static final String IMG_FILE = "ImgFile";//服务器地址存储路径   参数：?UserPhone =1&PassWord =1
     public static final String USER_LOGIN = "userLogin.ssm";//手机密码登陆   参数：?UserPhone =1&PassWord =1
+    public static final String INSERT_LIVE = "insertLive.ssm";// 添加直播  参数？LiveTitle=1&BroadcastAddress=1& UserID=1
     public static final String UPDATE_IMG="addShareImage.ssm";//单图片上传
     public static final String UPDATEUSERSINFOPICPATH="updateUsersInfo.ssm";//修改个人信息
     public static final String SELECTEARNINGSBYTODAY="selectEarningsByToday.ssm"; //今日账单
