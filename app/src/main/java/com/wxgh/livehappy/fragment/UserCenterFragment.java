@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.wxgh.livehappy.FeedbackActivity;
 import com.wxgh.livehappy.LoginChooseActivity;
 import com.wxgh.livehappy.R;
 import com.wxgh.livehappy.UsersInformationActivity;
@@ -65,6 +66,7 @@ public class UserCenterFragment extends Fragment {
         rl_userinfo.setOnClickListener(click);
         tv_login_out.setOnClickListener(click);
         rl_purse.setOnClickListener(click);
+        rl_feedback.setOnClickListener(click);
         Users user = StaticManger.getCurrentUser(getContext());
         if (user != null) {//已登录
             isLogin();
@@ -146,6 +148,13 @@ public class UserCenterFragment extends Fragment {
                 case R.id.rl_purse:
                     if (user != null) {//当前用户未登录，跳转登录
                         startActivityForResult(new Intent(getActivity(), WalletActivity.class), 0);
+                    } else {
+                        startActivityForResult(new Intent(getActivity(), LoginChooseActivity.class), 1);
+                    }
+                    break;
+                case R.id.rl_feedback:
+                    if (user != null) {//当前用户未登录，跳转登录
+                        startActivityForResult(new Intent(getActivity(), FeedbackActivity.class), 0);
                     } else {
                         startActivityForResult(new Intent(getActivity(), LoginChooseActivity.class), 1);
                     }
