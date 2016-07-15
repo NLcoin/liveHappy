@@ -38,13 +38,69 @@
         android:layout_height="1dp"
         android:background="#B3B3B3"
         />
-    <!-- 消息提醒  清除缓存  版本信息  帮助  关于我们-->
+    <!-- 清除缓存  版本信息  帮助  关于我们-->
     <LinearLayout style="@style/wrap_layout">
-        <LinearLayout style="@style/single_layout"
+        <RelativeLayout style="@style/single_layout"
             android:focusable="true"
             android:focusableInTouchMode="true">
-            <TextView style="@style/usertext" android:text="消息提醒"/>
-            <EditText android:id="@+id/edit_username" android:singleLine="true" style="@style/img_arrow" android:layout_weight="1" android:text="凡尘周少" />
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除缓存"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:id="@+id/txt_clearcache" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/input1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
     </LinearLayout>
+    <!--帮助-->
+    <LinearLayout style="@style/wrap_layout">
+        <RelativeLayout style="@style/single_layout"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="帮助"
+                android:textSize="18sp"
+                android:textColor="#000"
+                 />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/input1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </LinearLayout>
+    <!--关于我们-->
+    <LinearLayout style="@style/wrap_layout">
+        <RelativeLayout style="@style/single_layout"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关于我们"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="版本1.0"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"
+        android:textColor="#8EE2D3"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
