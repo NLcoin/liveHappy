@@ -328,7 +328,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="21dp"
                         android:layout_marginStart="21dp"
-                        android:src="@drawable/feedback" />
+                        android:src="@drawable/user_feedback" />
 
                     <TextView
                         android:id="@+id/txt_feedback"
