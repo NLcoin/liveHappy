@@ -16,24 +16,30 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- 读写Sdcard -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!-- SDK2.1新增获取用户位置信息 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 短信 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <!-- Required -->
     <uses-permission android:name="com.wxgh.livehappy.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- Optional. Required for location feature -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -76,6 +82,8 @@
         <activity android:name=".le_play.PlayNoSkinActivity" />
         <activity android:name=".le_play.skin.activity.FeedBackActivity" />
         <!-- 直播播放结束 -->
+
+
         <!-- QQ互联开始 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -83,8 +91,10 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1105461627" />
             </intent-filter>
         </activity>
@@ -112,7 +122,16 @@
         <activity android:name=".FeedbackActivity" >
         </activity>
         <activity android:name=".SetUpActivity">
+
         </activity>
+
+        <!--新浪-->
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"></activity>
+
 
 
 

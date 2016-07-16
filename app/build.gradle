@@ -64,5 +64,10 @@ dependencies {
     compile name: 'SMSSDK-2.1.0', ext: 'aar'
     //    mob短信结束
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    //    新浪的开始
+    compile files('libs/weibosdkcore_release.jar')
+    //    新浪的结束
+    //    极光推送的开始
     compile files('libs/jpush-android-2.1.5.jar')
+    //    极光推送的结束
 }

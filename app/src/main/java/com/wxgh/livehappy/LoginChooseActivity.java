@@ -4,10 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -34,11 +40,60 @@ public class LoginChooseActivity extends AppCompatActivity {
     String tencentAppID = "1105461627";//tencent的appid
     ProgressDialog dialog;
 
+    //微博
+    private static Oauth2AccessToken accessToken;
+    private SsoHandler mSsoHandler;
+    private static final String APP_KEY = "4069650049";           // 应用的APP_KEY
+    private static final String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";// 应用的回调页
+    public static final String SCOPE =                               // 应用申请的高级权限
+            "email,direct_messages_read,direct_messages_write,"
+                    + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+                    + "follow_app_official_microblog," + "invitation_write";
+
+    private AuthInfo mAuthInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_choose);
         initView();
+
+        mAuthInfo = new AuthInfo(this, APP_KEY, REDIRECT_URL, SCOPE);//创建微博授权类对象，将应用的信息保存
+
+    }
+
+    class AuthListener implements WeiboAuthListener {
+        @Override
+        public void onComplete(Bundle values) {
+            accessToken = Oauth2AccessToken.parseAccessToken(values); // 从 Bundle 中解析 Token
+            if (accessToken.isSessionValid()) {
+//                AccessTokenKeeper.writeAccessToken(getBaseContext(), accessToken); //保存Token
+                Log.d("msgxl", accessToken + "");
+//                uid: 5979873256, access_token: 2.00eMwgWGvsp68Ef66eb85510ffLttB, refresh_token: 2.00eMwgWGvsp68E0890af9cd60utLRd, phone_num: , expires_in: 1626338253307
+                thirdPartyLogin(null, accessToken);
+            } else {
+                // 当您注册的应用程序签名不正确时，就会收到错误Code，请确保签名正确
+                String code = values.getString("code", "");
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+    }
+
+    /**
+     * 新浪登录
+     */
+    private void isSinaLogin() {
+        mSsoHandler = new SsoHandler(LoginChooseActivity.this, mAuthInfo);
+        mSsoHandler.authorize(new AuthListener());
     }
 
     /**
@@ -61,6 +116,7 @@ public class LoginChooseActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.lin_xin://新浪点击
+                    isSinaLogin();
                     break;
                 case R.id.lin_qq://qq
                     // Tencent类是SDK的主要实现类，开发者可通过Tencent类访问腾讯开放的OpenAPI。
@@ -105,7 +161,7 @@ public class LoginChooseActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), "授权成功", Toast.LENGTH_SHORT).show();
             TencentUserToken tuk = new Gson().fromJson(o.toString(), TencentUserToken.class);
             if (tuk != null) {
-                thirdPartyLogin(tuk);
+                thirdPartyLogin(tuk, null);
             }
 //            Toast.makeText(LoginChooseActivity.this, "tuk.getAccess_token()----" + tuk.getAccess_token(), Toast.LENGTH_SHORT).show();
         }
@@ -129,19 +185,29 @@ public class LoginChooseActivity extends AppCompatActivity {
                 loginOk();
             }
         }
+
+
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+
+
     }
 
     /**
      * 第三方登录
      *
-     * @param tuk QQ登录信息
+     * @param tuk       QQ登录信息
+     * @param sinaToken 新浪登陆信息
      */
-    public void thirdPartyLogin(TencentUserToken tuk) {
+    public void thirdPartyLogin(TencentUserToken tuk, Oauth2AccessToken sinaToken) {
 
         String url = ConstantManger.SERVER_IP + ConstantManger.THIRD_PARTY_LOGIN;//"?Access_token=1& Openid=1& ThirdPartyType=1&appid=1";
         RequestBody requestBody = null;
         if (tuk != null) {
             requestBody = new FormBody.Builder().add("appid", tencentAppID).add("Access_token", tuk.getAccess_token()).add("Openid", tuk.getOpenid()).add("ThirdPartyType", "0").build();
+        } else if (sinaToken != null) {
+            requestBody = new FormBody.Builder().add("Access_token", sinaToken.getToken()).add("uid", sinaToken.getUid()).add("ThirdPartyType", "1").build();
         }
         Request request = new Request.Builder().url(url).post(requestBody).build();
         OkHttpClient okHttpClient = new OkHttpClient();
