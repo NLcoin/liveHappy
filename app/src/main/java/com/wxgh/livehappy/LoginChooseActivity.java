@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -62,13 +61,17 @@ public class LoginChooseActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 新浪回调
+     */
     class AuthListener implements WeiboAuthListener {
         @Override
         public void onComplete(Bundle values) {
             accessToken = Oauth2AccessToken.parseAccessToken(values); // 从 Bundle 中解析 Token
             if (accessToken.isSessionValid()) {
+                showProgressDialog();
 //                AccessTokenKeeper.writeAccessToken(getBaseContext(), accessToken); //保存Token
-                Log.d("msgxl", accessToken + "");
+//                Log.d("msgxl", accessToken + "");
 //                uid: 5979873256, access_token: 2.00eMwgWGvsp68Ef66eb85510ffLttB, refresh_token: 2.00eMwgWGvsp68E0890af9cd60utLRd, phone_num: , expires_in: 1626338253307
                 thirdPartyLogin(null, accessToken);
             } else {
@@ -207,7 +210,7 @@ public class LoginChooseActivity extends AppCompatActivity {
         if (tuk != null) {
             requestBody = new FormBody.Builder().add("appid", tencentAppID).add("Access_token", tuk.getAccess_token()).add("Openid", tuk.getOpenid()).add("ThirdPartyType", "0").build();
         } else if (sinaToken != null) {
-            requestBody = new FormBody.Builder().add("Access_token", sinaToken.getToken()).add("uid", sinaToken.getUid()).add("ThirdPartyType", "1").build();
+            requestBody = new FormBody.Builder().add("Access_token", sinaToken.getToken()).add("Openid", sinaToken.getUid()).add("ThirdPartyType", "1").build();
         }
         Request request = new Request.Builder().url(url).post(requestBody).build();
         OkHttpClient okHttpClient = new OkHttpClient();

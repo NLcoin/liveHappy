@@ -14,10 +14,12 @@ import android.widget.Toast;
 import com.letv.controller.PlayProxy;
 import com.letv.recorder.util.MD5Utls;
 import com.letv.universal.iplay.EventPlayProxy;
+import com.wxgh.livehappy.LoginChooseActivity;
 import com.wxgh.livehappy.R;
 import com.wxgh.livehappy.le_play.PlayNoSkinActivity;
 import com.wxgh.livehappy.le_push.RecorderActivity;
 import com.wxgh.livehappy.le_push.data.CreateStreamData;
+import com.wxgh.livehappy.model.Users;
 import com.wxgh.livehappy.utils.KeyBoardUtils;
 import com.wxgh.livehappy.utils.StaticManger;
 
@@ -52,8 +54,14 @@ public class Tab02 extends Fragment {
         //移动直播生成推流地址时用到的Model
         createStreamData = new CreateStreamData(getContext());
 //        createStreamData.setVertical(false);
-        STREAM_ID = StaticManger.getCurrentUser(getContext()).getUsersinfoid() + "";
-        addPlay();
+        Users users = StaticManger.getCurrentUser(getContext());
+        if (users == null) {
+            startActivity(new Intent(getActivity(), LoginChooseActivity.class));
+        }else {
+            STREAM_ID = StaticManger.getCurrentUser(getContext()).getUsersinfoid() + "";
+            addPlay();
+        }
+
         return view;
     }
 
