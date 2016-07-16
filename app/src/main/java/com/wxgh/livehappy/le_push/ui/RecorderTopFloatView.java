@@ -15,178 +15,184 @@ import com.letv.recorder.ui.logic.RecorderConstance;
 import com.letv.recorder.ui.logic.UiObservable;
 import com.letv.recorder.util.LeLog;
 import com.letv.recorder.util.ReUtils;
+import com.wxgh.livehappy.model.Users;
+import com.wxgh.livehappy.utils.StaticManger;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class RecorderTopFloatView extends RelativeLayout implements Observer {
-	private static final String TAG = "CameraView2";
-	protected Context context;
-	private ImageView leftArrayBtn;
-	private TextView topTitle;
-	private ImageView chCamBtn;
-	private ImageView micBtn;
-	private ImageView flashBtn;
-	protected Publisher publisher;
+    private static final String TAG = "CameraView2";
+    protected Context context;
+    private ImageView leftArrayBtn;
+    private TextView topTitle;
+    private ImageView chCamBtn;
+    private ImageView micBtn;
+    private ImageView flashBtn;
+    protected Publisher publisher;
 
-	private boolean useMic = true;
+    private boolean useMic = true;
 
-	public boolean isUserMic() {
-		return useMic;
-	}
+    public boolean isUserMic() {
+        return useMic;
+    }
 
-	public void setUserMic(boolean userMic) {
-		this.useMic = userMic;
-	}
+    public void setUserMic(boolean userMic) {
+        this.useMic = userMic;
+    }
 
-	private boolean useBackCam = true;
+    private boolean useBackCam = true;
 
-	public boolean isUseBackCam() {
-		return useBackCam;
-	}
+    public boolean isUseBackCam() {
+        return useBackCam;
+    }
 
-	public void setUseBackCam(boolean useBackCam) {
-		this.useBackCam = useBackCam;
-	}
+    public void setUseBackCam(boolean useBackCam) {
+        this.useBackCam = useBackCam;
+    }
 
-	private boolean useFlash = false;
+    private boolean useFlash = false;
 
-	public boolean isUseFlash() {
-		return useFlash;
-	}
+    public boolean isUseFlash() {
+        return useFlash;
+    }
 
-	public void setUseFlash(boolean useFlash) {
-		this.useFlash = useFlash;
-	}
+    public void setUseFlash(boolean useFlash) {
+        this.useFlash = useFlash;
+    }
 
-	private UiObservable topSubject = new UiObservable();
+    private UiObservable topSubject = new UiObservable();
 
-	public UiObservable getTopSubject() {
-		return topSubject;
-	}
+    public UiObservable getTopSubject() {
+        return topSubject;
+    }
 
-	public RecorderTopFloatView(Context context) {
-		super(context);
-		this.context = context;
-		initView();
-	}
+    public RecorderTopFloatView(Context context) {
+        super(context);
+        this.context = context;
+        initView();
+    }
 
-	public RecorderTopFloatView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.context = context;
-		initView();
-	}
+    public RecorderTopFloatView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        initView();
+    }
 
-	protected void initView() {
-		LayoutInflater.from(context).inflate(ReUtils.getLayoutId(context, "letv_recorder_top_float_layout"), this);
-		leftArrayBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_left_arraw"));
-		leftArrayBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Bundle bundle = new Bundle();
-				bundle.putInt("flag", RecorderConstance.top_float_back);
-				getTopSubject().notifyObserverPlus(bundle);
-			}
-		});
+    protected void initView() {
+        LayoutInflater.from(context).inflate(ReUtils.getLayoutId(context, "letv_recorder_top_float_layout"), this);
+        leftArrayBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_left_arraw"));
+        leftArrayBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("flag", RecorderConstance.top_float_back);
+                getTopSubject().notifyObserverPlus(bundle);
+            }
+        });
 
-		topTitle = (TextView) findViewById(ReUtils.getId(context, "letv_recorder_top_title"));
-		// 切换摄像头
-		chCamBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_top_change_cam"));
-		chCamBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Bundle bundle = new Bundle();
+        topTitle = (TextView) findViewById(ReUtils.getId(context, "letv_recorder_top_title"));
+        // 切换摄像头
+        chCamBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_top_change_cam"));
+        chCamBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
 
-				if (useBackCam) {
-					bundle.putInt("flag", RecorderConstance.use_front_cam);
+                if (useBackCam) {
+                    bundle.putInt("flag", RecorderConstance.use_front_cam);
 
-					getTopSubject().notifyObserverPlus(bundle);
-					useBackCam = false;
-					
-					// 使用前置摄像头的时候关闭闪光灯
-					flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_gray"));
-					useFlash = false;
+                    getTopSubject().notifyObserverPlus(bundle);
+                    useBackCam = false;
 
-				} else {
-					flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_white"));
-					
-					bundle.putInt("flag", RecorderConstance.use_back_cam);
-					getTopSubject().notifyObserverPlus(bundle);
-					useBackCam = true;
-				}
-			}
-		});
+                    // 使用前置摄像头的时候关闭闪光灯
+                    flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_gray"));
+                    useFlash = false;
 
-		// 麦克风
-		micBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_top_mic"));
-		micBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Bundle bundle = new Bundle();
+                } else {
+                    flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_white"));
 
-				if (useMic) {
-					bundle.putInt("flag", RecorderConstance.disable_mic);
-					getTopSubject().notifyObserverPlus(bundle);
-					micBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_mic_white"));
-					useMic = false;
-				} else {
+                    bundle.putInt("flag", RecorderConstance.use_back_cam);
+                    getTopSubject().notifyObserverPlus(bundle);
+                    useBackCam = true;
+                }
+            }
+        });
 
-					bundle.putInt("flag", RecorderConstance.enable_mic);
+        // 麦克风
+        micBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_top_mic"));
+        micBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
 
-					getTopSubject().notifyObserverPlus(bundle);
-					micBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_mic_blue"));
-					useMic = true;
-				}
-			}
-		});
+                if (useMic) {
+                    bundle.putInt("flag", RecorderConstance.disable_mic);
+                    getTopSubject().notifyObserverPlus(bundle);
+                    micBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_mic_white"));
+                    useMic = false;
+                } else {
 
-		// 闪光灯
-		flashBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_flash"));
-		flashBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Bundle bundle = new Bundle();
+                    bundle.putInt("flag", RecorderConstance.enable_mic);
 
-				if (useFlash) {
-					bundle.putInt("flag", RecorderConstance.disable_flash);
-					getTopSubject().notifyObserverPlus(bundle);
-					flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_white"));
-					useFlash = false;
-				} else {
-					if(useBackCam){
-						bundle.putInt("flag", RecorderConstance.enable_flash);
-						getTopSubject().notifyObserverPlus(bundle);
-						flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_blue"));
-						useFlash = true;
-					}else{
-						Toast.makeText(context, "该摄像头不支持闪光灯", Toast.LENGTH_SHORT).show();
-					}
-				}
-			}
-		});
-	}
-	public void buildPublisher(Publisher publisher){
-		this.publisher = publisher;
-	}
-	public void updateTitle(String title) {
-		topTitle.setText(title);
-	}
+                    getTopSubject().notifyObserverPlus(bundle);
+                    micBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_mic_blue"));
+                    useMic = true;
+                }
+            }
+        });
 
-	/**
-	 * 观察者
-	 */
-	@Override
-	public void update(Observable observable, Object data) {
-		Bundle bundle = (Bundle) data;
-		int flag = bundle.getInt("flag");
-		if (RecorderConstance.recorder_start == flag) {
-			LeLog.d(TAG, "[oberver] recorder_start |recorderTopFlatView");
+        // 闪光灯
+        flashBtn = (ImageView) findViewById(ReUtils.getId(context, "letv_recorder_flash"));
+        flashBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+
+                if (useFlash) {
+                    bundle.putInt("flag", RecorderConstance.disable_flash);
+                    getTopSubject().notifyObserverPlus(bundle);
+                    flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_white"));
+                    useFlash = false;
+                } else {
+                    if (useBackCam) {
+                        bundle.putInt("flag", RecorderConstance.enable_flash);
+                        getTopSubject().notifyObserverPlus(bundle);
+                        flashBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_flash_blue"));
+                        useFlash = true;
+                    } else {
+                        Toast.makeText(context, "该摄像头不支持闪光灯", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
+    public void buildPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public void updateTitle(String title) {
+        Users users = StaticManger.getCurrentUser(getContext());
+        topTitle.setText(users.getUsersinfoName() + "的直播间");
+//		topTitle.setText(title);
+    }
+
+    /**
+     * 观察者
+     */
+    @Override
+    public void update(Observable observable, Object data) {
+        Bundle bundle = (Bundle) data;
+        int flag = bundle.getInt("flag");
+        if (RecorderConstance.recorder_start == flag) {
+            LeLog.d(TAG, "[oberver] recorder_start |recorderTopFlatView");
 //			this.setVisibility(View.GONE);
-		} else if (RecorderConstance.recorder_stop == flag) {
+        } else if (RecorderConstance.recorder_stop == flag) {
 
-			LeLog.d(TAG, "[oberver] recorder_stop |recorderTopFlatView");
+            LeLog.d(TAG, "[oberver] recorder_stop |recorderTopFlatView");
 //			this.setVisibility(View.VISIBLE);
-		}
-	}
+        }
+    }
 
 }

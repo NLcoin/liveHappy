@@ -19,305 +19,308 @@ import com.letv.recorder.ui.logic.UiObservable;
 import com.letv.recorder.util.LeLog;
 import com.letv.recorder.util.NetworkUtils;
 import com.letv.recorder.util.ReUtils;
+import com.wxgh.livehappy.le_push.RecorderActivity;
 
 import java.util.Observer;
 
 public class RecorderView extends RelativeLayout implements Callback {
 
-	private static final String TAG = "CameraView2";
-	private Context context;
-	private FrameLayout topContainer;
-	private FrameLayout bottomContainer;
+    private static final String TAG = "CameraView2";
+    private Context context;
+    private FrameLayout topContainer;
+    private FrameLayout bottomContainer;
 
-	private CaptureBtn startBtn;// 开始按钮
+    private CaptureBtn startBtn;// 开始按钮
 
-	private SurfaceView surfaceView;
-	private RelativeLayout surfaceContainer;
-	private Publisher publisher;
-	
+    private SurfaceView surfaceView;
+    private RelativeLayout surfaceContainer;
+    private Publisher publisher;
 
-	public RecorderView(Context context) {
-		super(context);
-		this.context = context;
-		initView();
-	}
 
-	public RecorderView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.context = context;
-		initView();
-	}
+    public RecorderView(Context context) {
+        super(context);
+        this.context = context;
+        initView();
+    }
 
-	private void initView() {
-		LayoutInflater.from(context).inflate(ReUtils.getLayoutId(context, "letv_recorder_main_layout"), this);
-		topContainer = (FrameLayout) findViewById(ReUtils.getId(context, "letv_recorder_top_container"));
-		bottomContainer = (FrameLayout) findViewById(ReUtils.getId(context, "letv_recorder_bottom_container"));
-		surfaceContainer = (RelativeLayout) findViewById(ReUtils.getId(context, "letv_recorder_surface_container"));
-		attachStartBtn();
-		// 初始化日志模块，保证日志放在android/data/包名/push_stream 下面
-		LeLog.init(context);
-	}
+    public RecorderView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        initView();
+    }
 
-	/**
-	 * 加入surfaceView
-	 * 
-	 * @param surfaceView
-	 */
+    private void initView() {
+        LayoutInflater.from(context).inflate(ReUtils.getLayoutId(context, "letv_recorder_main_layout"), this);
+        topContainer = (FrameLayout) findViewById(ReUtils.getId(context, "letv_recorder_top_container"));
+        bottomContainer = (FrameLayout) findViewById(ReUtils.getId(context, "letv_recorder_bottom_container"));
+        surfaceContainer = (RelativeLayout) findViewById(ReUtils.getId(context, "letv_recorder_surface_container"));
+        attachStartBtn();
+        // 初始化日志模块，保证日志放在android/data/包名/push_stream 下面
+        LeLog.init(context);
+    }
 
-	public void attachSurfaceView(SurfaceView surfaceView) {
-		if (this.surfaceView != null) {
-			surfaceContainer.removeView(this.surfaceView);
-			this.surfaceView.getHolder().removeCallback(this);
-		}
+    /**
+     * 加入surfaceView
+     *
+     * @param surfaceView
+     */
 
-		this.surfaceView = surfaceView;
-		this.surfaceView.getHolder().addCallback(this);
-		surfaceContainer.addView(surfaceView);
-	}
+    public void attachSurfaceView(SurfaceView surfaceView) {
+        if (this.surfaceView != null) {
+            surfaceContainer.removeView(this.surfaceView);
+            this.surfaceView.getHolder().removeCallback(this);
+        }
 
-	/**
-	 * 添加头部浮层
-	 * 
-	 * @param topView
-	 */
-	public void attachTopFloatView(View topView) {
-		topContainer.removeAllViews();
-		topContainer.addView(topView);
-	}
+        this.surfaceView = surfaceView;
+        this.surfaceView.getHolder().addCallback(this);
+        surfaceContainer.addView(surfaceView);
+    }
 
-	/**
-	 * 添加底部浮层
-	 * 
-	 * @param bottomView
-	 */
-	public void attachBomttomView(View bottomView) {
-		bottomContainer.removeAllViews();
-		if (bottomView instanceof Observer) {
-			startBtn.getStartSubject().deleteObserver((Observer) bottomView);
-		}
-		
-		LayoutParams lp= (LayoutParams) startBtn.getLayoutParams();
-		
-		FrameLayout.LayoutParams params=new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-		//TODO:在新的UI中，做个小小的适配
-		params.leftMargin = lp.width+lp.leftMargin;
-		bottomContainer.addView(bottomView,params);
-		
-		
-		if (bottomView instanceof Observer) {// 添加观察者
-			startBtn.getStartSubject().addObserver((Observer) bottomView);
-		}
-	}
+    /**
+     * 添加头部浮层
+     *
+     * @param topView
+     */
+    public void attachTopFloatView(View topView) {
+        topContainer.removeAllViews();
+        topContainer.addView(topView);
+    }
 
-	public void buildPublisher(Publisher publisher){
-		this.publisher = publisher;
-	}
-	/**
-	 * 添加中部浮层
-	 * 
-	 * @param centerView
-	 */
-	public void attachCenterView(View centerView) {
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.CENTER_IN_PARENT);
-		this.addView(centerView, params);
-		centerView.setVisibility(View.GONE);
-		
+    /**
+     * 添加底部浮层
+     *
+     * @param bottomView
+     */
+    public void attachBomttomView(View bottomView) {
+        bottomContainer.removeAllViews();
+        if (bottomView instanceof Observer) {
+            startBtn.getStartSubject().deleteObserver((Observer) bottomView);
+        }
+
+        LayoutParams lp = (LayoutParams) startBtn.getLayoutParams();
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        //TODO:在新的UI中，做个小小的适配
+        params.leftMargin = lp.width + lp.leftMargin;
+        bottomContainer.addView(bottomView, params);
+
+
+        if (bottomView instanceof Observer) {// 添加观察者
+            startBtn.getStartSubject().addObserver((Observer) bottomView);
+        }
+    }
+
+    public void buildPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    /**
+     * 添加中部浮层
+     *
+     * @param centerView
+     */
+    public void attachCenterView(View centerView) {
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        this.addView(centerView, params);
+        centerView.setVisibility(View.GONE);
+
 //		if(centerView instanceof RecorderAngleView){
 //			this.angleView=(RecorderAngleView) centerView;
 //			this.angleView.addObserver(this);
 //		}
-	}
+    }
 
-	public void reSetStartBtn(boolean falg){
-		if(startBtn != null){
-			if(falg){
-				startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_stop"));
-			}else{
-				startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
-			}
-		}
-	}
-	/**
-	 * 加入播放按钮
-	 */
-	public void attachStartBtn() {
-		
-		startBtn = new CaptureBtn(context);
-		startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
-		
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    public void reSetStartBtn(boolean falg) {
+        if (startBtn != null) {
+            if (falg) {
+                startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_stop"));
+            } else {
+                startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
+            }
+        }
+    }
+
+    /**
+     * 加入播放按钮
+     */
+    public void attachStartBtn() {
+
+        startBtn = new CaptureBtn(context);
+        startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
+
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 //		params.addRule(RelativeLayout.CENTER_VERTICAL);
-		
-		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		//TODO:在新的UI中，按钮是靠左放置的，所以这里改动一下
-		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-		
-		params.setMargins(dip2px(context, 12), 0, dip2px(context, 20), dip2px(context, 5));
-		this.addView(startBtn, params);
-		
-		
-		//设置大小
-		android.view.ViewGroup.LayoutParams layoutParams = startBtn.getLayoutParams();
-		layoutParams.height=dip2px(context, 56);
-		layoutParams.width=dip2px(context, 56);
-		startBtn.setLayoutParams(layoutParams);
-	}
-	
-	
-	public void stopAuto(){
-		startBtn.stopRecorder();
-	}
 
-	public UiObservable getStartSubject() {
-		return startBtn.getStartSubject();
-	}
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        //TODO:在新的UI中，按钮是靠左放置的，所以这里改动一下
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-	public static int px2dip(Context context, float pxValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (pxValue / scale + 0.5f);
-	}
+        params.setMargins(dip2px(context, 12), 0, dip2px(context, 20), dip2px(context, 5));
+        this.addView(startBtn, params);
 
-	public static int dip2px(Context context, float dipValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (dipValue * scale + 0.5f);
-	}
-	
-	
-	public void startRecorder(){
-		startBtn.startRecorder();
-	}
-	
-	public void stopRecorder(){
-		startBtn.stopRecorder();
-	}
 
-	///////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////
+        //设置大小
+        android.view.ViewGroup.LayoutParams layoutParams = startBtn.getLayoutParams();
+        layoutParams.height = dip2px(context, 56);
+        layoutParams.width = dip2px(context, 56);
+        startBtn.setLayoutParams(layoutParams);
+    }
 
-	/**
-	 * 开始按钮
-	 * 
-	 * @author pys
-	 *
-	 */
-	private class CaptureBtn extends ImageView implements OnClickListener {
-		private UiObservable startSubject = new UiObservable();
-		private Dialog mobileNetworkDialog;
 
-		public CaptureBtn(Context context, AttributeSet attrs) {
-			super(context, attrs);
-			initView();
-		}
+    public void stopAuto() {
+        startBtn.stopRecorder();
+    }
 
-		public CaptureBtn(Context context) {
-			super(context);
-			initView();
-		}
+    public UiObservable getStartSubject() {
+        return startBtn.getStartSubject();
+    }
 
-		private void initView() {
-			setOnClickListener(this);
-		}
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 
-		@Override
-		public void onClick(View v) {
-			if (publisher == null || !publisher.isRecording()) {
+    public static int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+
+    public void startRecorder() {
+        startBtn.startRecorder();
+    }
+
+    public void stopRecorder() {
+        startBtn.stopRecorder();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 开始按钮
+     *
+     * @author pys
+     */
+    private class CaptureBtn extends ImageView implements OnClickListener {
+        private UiObservable startSubject = new UiObservable();
+        private Dialog mobileNetworkDialog;
+
+        public CaptureBtn(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            initView();
+        }
+
+        public CaptureBtn(Context context) {
+            super(context);
+            initView();
+        }
+
+        private void initView() {
+            setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (publisher == null || !publisher.isRecording()) {
 //				this.startRecorder();
-				selectAngle();
-			} else {
-				this.stopRecorder();
-			}
-		}
-		
-		/**
-		 *  选择机位
-		 */
-		private void selectAngle(){
-			final Bundle bundle=new Bundle();
-			
-			/**
-			 * wifi环境下
-			 */
-			if(NetworkUtils.isWifiNetType(context)){
-				bundle.putInt("flag", RecorderConstance.angle_request);
-				getStartSubject().notifyObserverPlus(bundle);
-			}else{
-				if(NetworkUtils.getNetType(context)!=null && !NetworkUtils.isWifiNetType(context)){//mobile网络环境下
-					mobileNetworkDialog = RecorderDialogBuilder.showMobileNetworkWarningDialog(context, new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							if(mobileNetworkDialog!=null){
-								mobileNetworkDialog.dismiss();
-								if(publisher != null && !publisher.isRecording()){
-									bundle.putInt("flag", RecorderConstance.angle_request);
-									getStartSubject().notifyObserverPlus(bundle);
-								}
-							}
-							
-						}
-					},new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							if(mobileNetworkDialog!=null){
-								mobileNetworkDialog.dismiss();
-							}
-						}
-					});
-					
-				} else{
-					mobileNetworkDialog = RecorderDialogBuilder.showCommentDialog(context, "网络连接失败,请检查后重试", "我知道了", null, new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							mobileNetworkDialog.dismiss();
-							mobileNetworkDialog = null;
-						}
-					}, null);
-							
-				}
-			}
-			
-			
-		}
-		
-		public void startRecorder() {
-			startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_stop"));
-			Bundle bundle=new Bundle();
-			bundle.putInt("flag", RecorderConstance.recorder_start);
-			getStartSubject().notifyObserverPlus(bundle);
-		}
+                selectAngle();
+            } else {
+                this.stopRecorder();
+            }
+        }
 
-		public void stopRecorder() {
-			startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
-			Bundle bundle=new Bundle();
-			bundle.putInt("flag", RecorderConstance.recorder_stop);
-			getStartSubject().notifyObserverPlus(bundle);// 通知观察者
-		}
+        /**
+         * 选择机位
+         */
+        private void selectAngle() {
+            final Bundle bundle = new Bundle();
 
-		public UiObservable getStartSubject() {
-			return startSubject;
-		}
-	}
+            /**
+             * wifi环境下
+             */
+            if (NetworkUtils.isWifiNetType(context)) {
+                bundle.putInt("flag", RecorderConstance.angle_request);
+                getStartSubject().notifyObserverPlus(bundle);
+            } else {
+                if (NetworkUtils.getNetType(context) != null && !NetworkUtils.isWifiNetType(context)) {//mobile网络环境下
+                    mobileNetworkDialog = RecorderDialogBuilder.showMobileNetworkWarningDialog(context, new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mobileNetworkDialog != null) {
+                                mobileNetworkDialog.dismiss();
+                                if (publisher != null && !publisher.isRecording()) {
+                                    bundle.putInt("flag", RecorderConstance.angle_request);
+                                    getStartSubject().notifyObserverPlus(bundle);
+                                }
+                            }
 
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////
+                        }
+                    }, new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mobileNetworkDialog != null) {
+                                mobileNetworkDialog.dismiss();
+                            }
+                        }
+                    });
 
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
+                } else {
+                    mobileNetworkDialog = RecorderDialogBuilder.showCommentDialog(context, "网络连接失败,请检查后重试", "我知道了", null, new OnClickListener() {
 
-	}
+                        @Override
+                        public void onClick(View v) {
+                            mobileNetworkDialog.dismiss();
+                            mobileNetworkDialog = null;
+                        }
+                    }, null);
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                }
+            }
 
-	}
 
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
+        }
 
-	}
-	
-	
+        public void startRecorder() {
+            RecorderActivity.addLive(getContext());
+            startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_stop"));
+            Bundle bundle = new Bundle();
+            bundle.putInt("flag", RecorderConstance.recorder_start);
+            getStartSubject().notifyObserverPlus(bundle);
+        }
+
+        public void stopRecorder() {
+            startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
+            Bundle bundle = new Bundle();
+            bundle.putInt("flag", RecorderConstance.recorder_stop);
+            getStartSubject().notifyObserverPlus(bundle);// 通知观察者
+        }
+
+        public UiObservable getStartSubject() {
+            return startSubject;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
+    }
+
+
 //	/**
 //	 * 观察者
 //	 */

@@ -3,6 +3,7 @@ package com.wxgh.livehappy.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.letv.controller.PlayProxy;
 import com.letv.recorder.util.MD5Utls;
+import com.letv.universal.iplay.EventPlayProxy;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.le_play.PlayNoSkinActivity;
 import com.wxgh.livehappy.le_push.RecorderActivity;
 import com.wxgh.livehappy.le_push.data.CreateStreamData;
 import com.wxgh.livehappy.utils.KeyBoardUtils;
+import com.wxgh.livehappy.utils.StaticManger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +30,7 @@ import java.util.Date;
  */
 public class Tab02 extends Fragment {
     private View view;
-    private TextView tv_play;//开始直播按钮
+    private TextView tv_play, textView;//开始直播按钮
     private EditText et_title;//直播标题
     private String playUrl = "";//播放地址
 
@@ -34,7 +39,7 @@ public class Tab02 extends Fragment {
     // 移动直播推流签名密钥
     private static final String DEFAULT_APPKEY = "MS2EZZJG648V1LWEN558";
     // 移动直播推流名称
-    private static final String STREAM_ID = "testlive";
+    private static String STREAM_ID = "testlive";
     private CreateStreamData createStreamData;//直播实体类
     private SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -47,6 +52,8 @@ public class Tab02 extends Fragment {
         //移动直播生成推流地址时用到的Model
         createStreamData = new CreateStreamData(getContext());
 //        createStreamData.setVertical(false);
+        STREAM_ID = StaticManger.getCurrentUser(getContext()).getUsersinfoid() + "";
+        addPlay();
         return view;
     }
 
@@ -58,6 +65,8 @@ public class Tab02 extends Fragment {
         tv_play = (TextView) view.findViewById(R.id.tv_play);
         et_title = (EditText) view.findViewById(R.id.et_title);
         et_title.setOnClickListener(click);
+        textView = (TextView) view.findViewById(R.id.textView);
+        textView.setOnClickListener(click);
     }
 
 
@@ -66,16 +75,41 @@ public class Tab02 extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_play:
-                    addPlay();
+//                    addPlay();
                     pushStream();
                     break;
                 case R.id.et_title:
                     Toast.makeText(getContext(), "132456", Toast.LENGTH_LONG).show();
                     KeyBoardUtils.openKeybord(et_title, getContext());
                     break;
+                case R.id.textView:
+                    EditText editText2 = (EditText) view.findViewById(R.id.editText2);
+
+                    if (TextUtils.isEmpty(editText2.getText().toString().trim())) {
+                        Toast.makeText(getContext(), "播放地址为空,不能播放..", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    startLeCloudMobileLive();
+                    break;
             }
         }
     };
+
+    /**
+     * 乐视云移动直播
+     */
+    private void startLeCloudMobileLive() {
+//        Intent intent = getStartActivity();
+        Intent intent = new Intent(getContext(), PlayNoSkinActivity.class);
+        Bundle mBundle = null;
+        mBundle = new Bundle();
+        mBundle.putInt(PlayProxy.PLAY_MODE, EventPlayProxy.PLAYER_LIVE);
+        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
+
+        mBundle.putString("path", editText2.getText().toString().trim());
+        intent.putExtra(PlayNoSkinActivity.DATA, mBundle);
+        startActivity(intent);
+    }
 
     /**
      * 获取直播标题
@@ -93,6 +127,8 @@ public class Tab02 extends Fragment {
     public void addPlay() {
         String title = getTitle();
         playUrl = createStreamUrl(false);//获取播放地址
+        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
+        editText2.setText(playUrl);
     }
 
 
@@ -115,6 +151,11 @@ public class Tab02 extends Fragment {
         intent.putExtra("streamUrl", createStreamUrl(true));
         // 获取当前 横屏还是竖屏推流。并且把参数传递给推流界面
         intent.putExtra("isVertical", createStreamData.isVertical());
+        // 获取播放地址
+        intent.putExtra("playUrl", playUrl);
+        // 获取直播标题
+        intent.putExtra("pushTitle", et_title.getText().toString());
+
         // 启动推流界面
         startActivity(intent);
     }

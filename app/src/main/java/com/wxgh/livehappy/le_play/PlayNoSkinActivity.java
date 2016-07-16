@@ -133,8 +133,10 @@ public class PlayNoSkinActivity extends Activity implements OnPlayStateListener 
         }
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         RelativeLayout videoContainer = (RelativeLayout) findViewById(R.id.videoContainer);
-        videoContainer.getLayoutParams().width = width;
-        videoContainer.getLayoutParams().height = height;
+        videoContainer.getLayoutParams().width = width;//GetDeviceInfo.getScreenWidth(this);
+//        videoContainer.getLayoutParams().height = height;
+//        videoContainer.getLayoutParams().width =GetDeviceInfo.getScreenWidth(this);
+        videoContainer.getLayoutParams().height=GetDeviceInfo.getScreenHeight(this);
         videoContainer.addView(videoView, params);
     }
      /*private void addVideoView() {

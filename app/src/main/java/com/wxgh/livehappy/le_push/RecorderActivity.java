@@ -1,17 +1,32 @@
 package com.wxgh.livehappy.le_push;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.wxgh.livehappy.le_push.ui.RecorderView;
-import com.wxgh.livehappy.le_push.ui.mobile.RecorderSkinMobile;
 import com.letv.recorder.controller.Publisher;
 import com.letv.recorder.util.LeLog;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.le_push.ui.RecorderView;
+import com.wxgh.livehappy.le_push.ui.mobile.RecorderSkinMobile;
+import com.wxgh.livehappy.model.Users;
+import com.wxgh.livehappy.utils.ConstantManger;
+import com.wxgh.livehappy.utils.StaticManger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * 移动直播推流界面
@@ -28,6 +43,8 @@ public class RecorderActivity extends Activity {
     private String pushSteamUrl;
     private String pushName;
 
+    private static String pushTitle, playUrl;//直播标题,播放地址//传过来滴
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +55,8 @@ public class RecorderActivity extends Activity {
         focusView = (ImageView) findViewById(R.id.focusView);
         rv = (RecorderView) findViewById(R.id.rv);//获取rootView
 
+        pushTitle = getIntent().getStringExtra("pushTitle");
+        playUrl = getIntent().getStringExtra("playUrl");
         isVertical = getIntent().getBooleanExtra("isVertical", false);
         pushSteamUrl = getIntent().getStringExtra("streamUrl");
         pushName = getIntent().getStringExtra("pushName");
@@ -137,6 +156,39 @@ public class RecorderActivity extends Activity {
             publisher.getRecorderContext().setUseLanscape(true);
         }
         publisher.initPublisher(this);
+    }
+
+
+    /**
+     * 添加直播
+     */
+    public static void addLive(Context context) {
+        Users users = StaticManger.getCurrentUser(context);
+        String url = ConstantManger.SERVER_IP + ConstantManger.INSERT_LIVE + "?BroadcastAddress=" + playUrl + "&UserID=" + users.getUsersinfoid() + "&LiveTitle=" + pushTitle;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    if (jsonObject.getInt("error") == 200) {//直播成功
+
+                    } else if (jsonObject.getInt("error") == 201) {//直播失败
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }
