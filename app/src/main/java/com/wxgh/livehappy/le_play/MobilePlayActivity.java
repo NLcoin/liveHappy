@@ -92,9 +92,4 @@ public class MobilePlayActivity extends Activity implements OnClickListener {
         intent.putExtra(PlayNoSkinActivity.DATA, mBundle);
         startActivity(intent);
     }
-
-//    private Intent getStartActivity() {
-//        return hasSkin ? new Intent(MobilePlayActivity.this, PlayActivity.class)
-//                : new Intent(MobilePlayActivity.this, PlayNoSkinActivity.class);
-//    }
 }

@@ -163,7 +163,6 @@ public class UserCenterFragment extends Fragment {
                     StaticManger.removeUser(getContext());
                     noLogin();
                     break;
-
             }
             user = null;
         }

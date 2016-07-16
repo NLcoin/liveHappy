@@ -46,12 +46,11 @@ public class FeedbackActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String context=txt_context.getText().toString();
                 if ("".equals(context) || context.length() > 120) {
-                    Toast.makeText(FeedbackActivity.this, "反馈内容不能为空并少于120个汉子！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedbackActivity.this, "反馈内容不能为空并不能多于120个汉字！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 StaticManger.showProgressDialog(FeedbackActivity.this);
                 feedback(context);
-
             }
         });
     }

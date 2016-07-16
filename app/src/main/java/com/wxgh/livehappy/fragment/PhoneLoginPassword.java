@@ -97,14 +97,12 @@ public class PhoneLoginPassword extends Fragment {
     private void login(final String phone, final String password) {
         String url = ConstantManger.SERVER_IP + ConstantManger.USER_LOGIN;
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).build();
+        RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).add("IP", Verification.getIP(getActivity())).build();
         Request request = new Request.Builder().url(url).post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
@@ -120,8 +118,6 @@ public class PhoneLoginPassword extends Fragment {
                             }
                         } else if (returnJson.getError() == 201) {//用户存在
 //                            insertUserByPhoneAndPassword(phone, password);
-                        } else if (returnJson.getError() == 202) {//用户已在线
-
                         }
                     }
 

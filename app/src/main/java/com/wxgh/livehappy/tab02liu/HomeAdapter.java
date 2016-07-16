@@ -10,15 +10,16 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.model.MyLive;
+import com.wxgh.livehappy.utils.StaticManger;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 98016 on 2016/7/8 0008.
  */
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
-    public HomeAdapter(Context context, List<Map<String,Object>> mDatas) {
+    public HomeAdapter(Context context, List<MyLive.Model> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
     }
@@ -27,9 +28,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-
-
-    private List<Map<String,Object>> mDatas;
+    private List<MyLive.Model> mDatas;
     private Context context;
 
     @Override
@@ -46,14 +45,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Uri uriimg=Uri.parse(mDatas.get(position).get("img").toString());
+        MyLive.Model model=mDatas.get(position);
+        Uri uriimg=Uri.parse(model.PicPath);
         holder.img.setImageURI(uriimg);
-        Uri uriimgheader=Uri.parse(mDatas.get(position).get("imgheader").toString());
+        Uri uriimgheader=Uri.parse(StaticManger.getImgPath(model.PicPath));
         holder.img_header.setImageURI(uriimgheader);
-        holder.txt_username.setText(mDatas.get(position).get("username").toString());
-        holder.txt_likenumber.setText(mDatas.get(position).get("likenumber").toString());
-        holder.txt_title.setText(mDatas.get(position).get("title").toString());
-
+        holder.txt_username.setText(model.UserName);
+        holder.txt_likenumber.setText(model.UserCount);
+        holder.txt_title.setText(model.liveTitle);
         if (mOnItemClickLitener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener()
             {
