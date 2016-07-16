@@ -60,10 +60,8 @@
         </activity>
         <activity android:name=".LoginChooseActivity" />
         <activity android:name=".PhoneLoginActivity" />
-
         <!-- 直播推流内容开始 -->
         <activity android:name=".le_push.MainActivity">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
@@ -73,7 +71,6 @@
         <!-- 直播推流结束 -->
         <!-- 直播播放内容开始 -->
         <activity android:name=".le_play.MobilePlayActivity">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->

@@ -19,30 +19,25 @@ import java.util.List;
  * Created by 98016 on 2016/7/8 0008.
  */
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
-    public HomeAdapter(Context context, List<MyLive.Model> mDatas) {
+    public HomeAdapter(Context context, List<MyLive.Model> mDatas){
         this.context = context;
         this.mDatas = mDatas;
     }
     private OnItemClickLitener mOnItemClickLitener;
-    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
-    {
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener){
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
     private List<MyLive.Model> mDatas;
     private Context context;
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.tab02_item_layout, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
-
-    public interface OnItemClickLitener
-    {
+    public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
-
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         MyLive.Model model=mDatas.get(position);
@@ -54,17 +49,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.txt_likenumber.setText(model.UserCount);
         holder.txt_title.setText(model.liveTitle);
         if (mOnItemClickLitener != null){
-            holder.itemView.setOnClickListener(new View.OnClickListener()
-            {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     int pos = holder.getLayoutPosition();
                     mOnItemClickLitener.onItemClick(holder.itemView, pos);
                 }
             });
         }
-
     }
 
     @Override
@@ -73,13 +65,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-
         SimpleDraweeView img;
         SimpleDraweeView img_header;
         TextView txt_username;
         TextView txt_likenumber;
         TextView txt_title;
-
         public MyViewHolder(View view) {
             super(view);
             img=(SimpleDraweeView)view.findViewById(R.id.img);
@@ -87,7 +77,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             txt_username = (TextView) view.findViewById(R.id.txt_username);
             txt_likenumber = (TextView) view.findViewById(R.id.txt_likenumber);
             txt_title = (TextView) view.findViewById(R.id.txt_title);
-
         }
     }
 }
