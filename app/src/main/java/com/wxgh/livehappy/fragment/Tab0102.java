@@ -48,7 +48,6 @@ public class Tab0102 extends Fragment {
     private View view;
     //流布局
     private RecyclerView mRecyclerView;
-    private List<MyLive> mDatas;
     private HomeAdapter mAdapter;
 
     //获取上下文
@@ -70,7 +69,6 @@ public class Tab0102 extends Fragment {
         return view;
     }
     public void init() {
-        mDatas = new ArrayList<MyLive>();
         initData();
     }
 
