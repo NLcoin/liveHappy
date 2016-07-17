@@ -19,7 +19,10 @@ import com.wxgh.livehappy.utils.StaticManger;
 import com.wxgh.livehappy.utils.Verification;
 
 import java.io.IOException;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -95,6 +98,10 @@ public class PhoneLoginPassword extends Fragment {
      * @param password 密码
      */
     private void login(final String phone, final String password) {
+        String alias=Verification.getIP(getActivity()).replace(".","")+phone;
+        JPushInterface.setAliasAndTags(getActivity(),alias, null, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {}});
         String url = ConstantManger.SERVER_IP + ConstantManger.USER_LOGIN;
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).add("IP", Verification.getIP(getActivity())).build();
@@ -107,7 +114,6 @@ public class PhoneLoginPassword extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
                 ReturnJson returnJson=new Gson().fromJson(json,ReturnJson.class);
-
                     if (returnJson != null) {
                         if (returnJson.getError() == 200) {//登陆成功
                             Users user = returnJson.getUsers().get(0);
@@ -120,10 +126,7 @@ public class PhoneLoginPassword extends Fragment {
 //                            insertUserByPhoneAndPassword(phone, password);
                         }
                     }
-
                     StaticManger.destroyDialog();
-
-
             }
         });
     }
