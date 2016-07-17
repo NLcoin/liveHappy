@@ -21,6 +21,7 @@ import com.wxgh.livehappy.model.ReturnJson;
 import com.wxgh.livehappy.model.TencentUserToken;
 import com.wxgh.livehappy.utils.ConstantManger;
 import com.wxgh.livehappy.utils.StaticManger;
+import com.wxgh.livehappy.utils.Verification;
 
 import java.io.IOException;
 
@@ -55,6 +56,10 @@ public class LoginChooseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_choose);
+        int i=getIntent().getIntExtra("islogin",-1);
+        if (i==2){
+            Verification.createDialog1(LoginChooseActivity.this,"提示","您已被强制下线!建议您立即修改密码!");
+        }
         initView();
 
         mAuthInfo = new AuthInfo(this, APP_KEY, REDIRECT_URL, SCOPE);//创建微博授权类对象，将应用的信息保存
