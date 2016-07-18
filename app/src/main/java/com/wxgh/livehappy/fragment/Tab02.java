@@ -73,8 +73,8 @@ public class Tab02 extends Fragment {
         tv_play = (TextView) view.findViewById(R.id.tv_play);
         et_title = (EditText) view.findViewById(R.id.et_title);
         et_title.setOnClickListener(click);
-        textView = (TextView) view.findViewById(R.id.textView);
-        textView.setOnClickListener(click);
+//        textView = (TextView) view.findViewById(R.id.textView);
+//        textView.setOnClickListener(click);
     }
 
 
@@ -90,15 +90,15 @@ public class Tab02 extends Fragment {
                     Toast.makeText(getContext(), "132456", Toast.LENGTH_LONG).show();
                     KeyBoardUtils.openKeybord(et_title, getContext());
                     break;
-                case R.id.textView:
-                    EditText editText2 = (EditText) view.findViewById(R.id.editText2);
-
-                    if (TextUtils.isEmpty(editText2.getText().toString().trim())) {
-                        Toast.makeText(getContext(), "播放地址为空,不能播放..", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    startLeCloudMobileLive();
-                    break;
+//                case R.id.textView:
+//                    EditText editText2 = (EditText) view.findViewById(R.id.editText2);
+//
+//                    if (TextUtils.isEmpty(editText2.getText().toString().trim())) {
+//                        Toast.makeText(getContext(), "播放地址为空,不能播放..", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                    startLeCloudMobileLive();
+//                    break;
             }
         }
     };
@@ -112,9 +112,9 @@ public class Tab02 extends Fragment {
         Bundle mBundle = null;
         mBundle = new Bundle();
         mBundle.putInt(PlayProxy.PLAY_MODE, EventPlayProxy.PLAYER_LIVE);
-        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
+//        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
 
-        mBundle.putString("path", editText2.getText().toString().trim());
+//        mBundle.putString("path", editText2.getText().toString().trim());
         intent.putExtra(PlayNoSkinActivity.DATA, mBundle);
         startActivity(intent);
     }
@@ -135,8 +135,8 @@ public class Tab02 extends Fragment {
     public void addPlay() {
         String title = getTitle();
         playUrl = createStreamUrl(false);//获取播放地址
-        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
-        editText2.setText(playUrl);
+//        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
+//        editText2.setText(playUrl);
     }
 
 
