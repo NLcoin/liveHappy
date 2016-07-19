@@ -41,7 +41,7 @@
                     android:id="@+id/img_userheader"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="42dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:clickable="true"
@@ -149,12 +149,15 @@
             <TextView
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:text="8"
+                android:text="888888888"
                 android:textColor="#FFF"
                 android:gravity="center"
                 android:layout_margin="6dp"
                 android:textSize="20sp"
                 android:background="@drawable/play_no_skin"
+                android:singleLine="true"
+                android:paddingLeft="4dp"
+                android:paddingRight="2dp"
                 />
         </LinearLayout>
         <!--账号-->
