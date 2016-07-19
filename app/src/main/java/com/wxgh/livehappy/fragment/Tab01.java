@@ -142,9 +142,11 @@ public class Tab01 extends Fragment {
      */
     public void initFragment(){
         tab0101 = new Tab0101();
+        tab0101.setmContext(mContext);
         tab0102= new Tab0102();
         tab0102.setmContext(mContext);
         tab0103= new Tab0103();
+        tab0103.setmContext(mContext);
         mFragments.add(tab0101);
         mFragments.add(tab0102);
         mFragments.add(tab0103);

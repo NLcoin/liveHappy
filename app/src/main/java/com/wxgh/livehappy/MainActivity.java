@@ -10,6 +10,11 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.wxgh.livehappy.fragment.Tab01;
 import com.wxgh.livehappy.fragment.Tab02;
 import com.wxgh.livehappy.fragment.UserCenterFragment;
+import com.wxgh.livehappy.model.Users;
+import com.wxgh.livehappy.utils.StaticManger;
+import com.wxgh.livehappy.utils.Verification;
+
+import cn.jpush.android.api.JPushInterface;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -115,5 +120,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_tab_bottom1.setImageResource(R.drawable.homepage);
         btn_tab_bottom2.setImageResource(R.drawable.live);
         btn_tab_bottom3.setImageResource(R.drawable.me);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Users user = StaticManger.getCurrentUser(MainActivity.this);
+        if (user!=null){
+            Verification.updateUserOnline(user);
+        }
+        super.onDestroy();
     }
 }

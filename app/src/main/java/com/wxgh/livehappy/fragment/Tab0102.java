@@ -28,8 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -110,10 +108,9 @@ public class Tab0102 extends Fragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_LONG).show();
                     break;
                 case 2:
                     String json = (String) msg.obj;

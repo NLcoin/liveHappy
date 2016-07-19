@@ -28,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -73,8 +72,69 @@ public class Tab0101 extends Fragment {
 
 
     private void initData() {
-       //数据加载
+        String url = ConstantManger.SERVER_IP + ConstantManger.SELECTALLLIVE;
+        RequestBody requestBody = new FormBody.Builder().build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendEmptyMessage(0);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject a = new JSONObject(json);
+                    String error = a.getString("error");
+                    if ("200".equals(error)) {//成功
+                        Message message = new Message();
+                        message.what = 2;
+                        message.obj = json;
+                        handler.sendMessage(message);
+                    } else {
+                        handler.sendEmptyMessage(1);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    String json = (String) msg.obj;
+                    Gson gson = new Gson();
+                    final MyLive myLive = gson.fromJson(json, MyLive.class);
+                    mAdapter = new HomeAdapter(mContext, myLive.list);
+                    mRecyclerView.setAdapter(mAdapter);
+                    //单击事件
+                    mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            MyLive.Model model=myLive.list.get(position);
+                            Intent intent = new Intent(getActivity(), PlayNoSkinActivity.class);
+                            Bundle mBundle  = new Bundle();
+                            mBundle.putInt(PlayProxy.PLAY_MODE, EventPlayProxy.PLAYER_LIVE);
+                            mBundle.putString("path",model.BroadcastAddress.trim());
+                            intent.putExtra(PlayNoSkinActivity.DATA, mBundle);
+                            startActivity(intent);
+                        }
+                    });
+                    break;
+            }
+        }
+    };
 
 
 

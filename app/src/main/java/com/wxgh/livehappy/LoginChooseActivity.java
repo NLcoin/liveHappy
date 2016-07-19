@@ -63,7 +63,6 @@ public class LoginChooseActivity extends AppCompatActivity {
         initView();
 
         mAuthInfo = new AuthInfo(this, APP_KEY, REDIRECT_URL, SCOPE);//创建微博授权类对象，将应用的信息保存
-
     }
 
     /**

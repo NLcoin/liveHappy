@@ -3,6 +3,8 @@ package com.wxgh.livehappy.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wxgh.livehappy.FeedbackActivity;
@@ -17,8 +20,24 @@ import com.wxgh.livehappy.LoginChooseActivity;
 import com.wxgh.livehappy.R;
 import com.wxgh.livehappy.UsersInformationActivity;
 import com.wxgh.livehappy.WalletActivity;
+import com.wxgh.livehappy.app.MyApplication;
 import com.wxgh.livehappy.model.Users;
+import com.wxgh.livehappy.utils.ConstantManger;
 import com.wxgh.livehappy.utils.StaticManger;
+import com.wxgh.livehappy.utils.Verification;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by 98016 on 2016/7/13 0013.
@@ -29,6 +48,8 @@ public class UserCenterFragment extends Fragment {
     private TextView tv_name, tv_thesignature, tv_zan, tv_focuson, tv_fans, tv_friendsNumber, tv_themessageNumber, tv_login_out;//用户名,签名，赞数量，关注数量，粉丝数,朋友数,消息数量,退出登陆
     private RelativeLayout rl_userinfo, rl_purse, rl_feedback, rl_setting;//用户信息,钱包,反馈,设置
     private LinearLayout ll_zan;//赞布局
+
+    private LinearLayout guanzhu,fensi,haoy;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +65,7 @@ public class UserCenterFragment extends Fragment {
     }
 
     /**
-     * 根据用户状态初始化控件
+     *根据用户状态初始化控件
      */
     public void initView() {
         draweeView = (SimpleDraweeView) view.findViewById(R.id.img_header);//头像
@@ -61,12 +82,18 @@ public class UserCenterFragment extends Fragment {
         rl_setting = (RelativeLayout) view.findViewById(R.id.rl_setting);//设置
         ll_zan = (LinearLayout) view.findViewById(R.id.ll_zan);//赞布局
         tv_login_out = (TextView) view.findViewById(R.id.tv_login_out);//退出登录
-
+        guanzhu= (LinearLayout) view.findViewById(R.id.guanzhu);
+        fensi= (LinearLayout) view.findViewById(R.id.fensi);
+        haoy= (LinearLayout) view.findViewById(R.id.haoy);
         tv_name.setOnClickListener(click);
         rl_userinfo.setOnClickListener(click);
         tv_login_out.setOnClickListener(click);
         rl_purse.setOnClickListener(click);
         rl_feedback.setOnClickListener(click);
+
+        guanzhu.setOnClickListener(click);
+        fensi.setOnClickListener(click);
+        haoy.setOnClickListener(click);
         Users user = StaticManger.getCurrentUser(getContext());
         if (user != null) {//已登录
             isLogin();
@@ -96,6 +123,36 @@ public class UserCenterFragment extends Fragment {
         tv_thesignature.setVisibility(View.VISIBLE);//签名
         ll_zan.setVisibility(View.VISIBLE);//赞布局
         tv_login_out.setVisibility(View.VISIBLE);
+
+
+        String url = ConstantManger.SERVER_IP + ConstantManger.SELECTOTHERMY;
+        RequestBody requestBody = new FormBody.Builder().add("UserID", user.getUsersinfoid()).build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendEmptyMessage(0);
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject a = new JSONObject(json);
+                    String error = a.getString("error");
+                    if ("200".equals(error)) {//成功
+                        Message message=new Message();
+                        message.what=2;
+                        message.obj=json;
+                        handler.sendMessage(message);
+                    } else {
+                        handler.sendEmptyMessage(1);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         user = null;
     }
 
@@ -162,9 +219,49 @@ public class UserCenterFragment extends Fragment {
                 case R.id.tv_login_out://退出登陆
                     StaticManger.removeUser(getContext());
                     noLogin();
+                    Verification.updateUserOnline(user);
+                    break;
+                case R.id.guanzhu:
+                    Toast.makeText(MyApplication.getContext(), "111111111", Toast.LENGTH_LONG).show();
+                    break;
+                case R.id.fensi:
+                    Toast.makeText(MyApplication.getContext(), "22222222222", Toast.LENGTH_LONG).show();
+                    break;
+                case R.id.haoy:
+                    Toast.makeText(MyApplication.getContext(), "3333333！", Toast.LENGTH_LONG).show();
                     break;
             }
             user = null;
+        }
+    };
+
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    String json= (String) msg.obj;
+                    try {
+                        JSONObject a = new JSONObject(json);
+                        String guanzhu = a.getString("guanzhu");
+                        String fensi = a.getString("fensi");
+                        String haoy = a.getString("haoy");
+                        tv_focuson.setText(guanzhu);
+                        tv_fans.setText(fensi);
+                        tv_friendsNumber.setText(haoy);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
         }
     };
 }

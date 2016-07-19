@@ -139,9 +139,7 @@ public class PhoneLoginVerificationCode extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
@@ -158,7 +156,6 @@ public class PhoneLoginVerificationCode extends Fragment {
                         handler1.sendEmptyMessage(3);//第一次登陆、设置密码
 //                            getPassword();
                     } else if (returnJson.getError() == 202) {//用户已在线
-
                     }
                 }
 

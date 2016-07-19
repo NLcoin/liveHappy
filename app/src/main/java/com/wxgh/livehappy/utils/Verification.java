@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -181,7 +182,6 @@ public class Verification {
                     Toast.makeText(MyApplication.getContext(),"网络异常！",Toast.LENGTH_LONG).show();
                     break;
                 case 1:
-                    Toast.makeText(MyApplication.getContext(),"上传失败！",Toast.LENGTH_LONG).show();
                     break;
                 case 2:
                     Toast.makeText(MyApplication.getContext(),"上传成功！",Toast.LENGTH_LONG).show();
@@ -189,4 +189,35 @@ public class Verification {
             }
         }
     };
+
+    /**
+     * 用户退出
+     * @param users
+     */
+    public static void updateUserOnline(Users users){
+        String url = ConstantManger.SERVER_IP + ConstantManger.UPDATEUSERSINFOISONLINE;
+        RequestBody requestBody = new FormBody.Builder().add("UserID",users.getUsersinfoid()).add("Online",0+"").build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendEmptyMessage(0);
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject a = new JSONObject(json);
+                    String error = a.getString("error");
+                    if ("200".equals(error)) {//成功
+                    } else {
+                        handler.sendEmptyMessage(1);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

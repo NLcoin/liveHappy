@@ -5,9 +5,9 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.content.Context;
 
-import com.wxgh.livehappy.le_play.handler.CrashHandler;
 import com.lecloud.config.LeCloudPlayerConfig;
 import com.letv.proxy.LeCloudProxy;
+import com.wxgh.livehappy.le_play.handler.CrashHandler;
 
 import java.util.List;
 
@@ -54,4 +54,5 @@ public class MyApplication extends Application {
     public void onLowMemory() {
         super.onLowMemory();
     }
+
 }

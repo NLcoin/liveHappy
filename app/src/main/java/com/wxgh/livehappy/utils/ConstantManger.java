@@ -16,4 +16,6 @@ public class ConstantManger {
     public static final String SELECTEARNINGSBYTODAY="selectEarningsByToday.ssm"; //今日账单
     public static final String INSERTFEEDBACK="insertFeedback.ssm"; //添加反馈
     public static final String SELECTALLLIVE="selectAllLive.ssm";//查询所有直播
+    public static final String UPDATEUSERSINFOISONLINE="updateUsersInfoIsOnline.ssm";//修改个人在线状态
+    public static final String SELECTOTHERMY="selectOtherMY.ssm"; //查询好友等
 }
