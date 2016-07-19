@@ -45,6 +45,8 @@ public class RecorderActivity extends Activity {
 
     private static String pushTitle, playUrl;//直播标题,播放地址//传过来滴
 
+    public static int liveId;//正在直播的直播间编号
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,8 +117,17 @@ public class RecorderActivity extends Activity {
         if (recorderSkinMobile != null) {
             recorderSkinMobile.onDestroy();
         }
+        destoryObject();
     }
 
+    /**
+     * 销毁一些对象
+     */
+    public void destoryObject() {
+        destroyLive();
+//        liveId = 0;
+
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -178,9 +189,9 @@ public class RecorderActivity extends Activity {
                 String json = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(json);
-                    if (jsonObject.getInt("error") == 200) {//直播成功
-
-                    } else if (jsonObject.getInt("error") == 201) {//直播失败
+                    if (Integer.parseInt(jsonObject.getString("error"))== 200) {//直播成功
+                        liveId = Integer.parseInt(jsonObject.getString("LiveID"));
+                    } else if (Integer.parseInt(jsonObject.getString("error")) == 201) {//直播失败
 
                     }
 
@@ -191,4 +202,57 @@ public class RecorderActivity extends Activity {
         });
     }
 
+
+    /**
+     * 202     * 停止直播、暂停直播
+     */
+    public static void stopLive() {
+        updateLiveState(1);
+    }
+
+    /**
+     * 销毁直播
+     */
+    public static void destroyLive() {
+        updateLiveState(2);
+    }
+
+    /**
+     * 继续直播
+     */
+    public static void continueLive() {
+        updateLiveState(0);
+    }
+
+    /**
+     * 更新直播间状态
+     *
+     * @param state 0是开播   1 是暂停  2 是关闭
+     */
+    private static void updateLiveState(int state) {
+        String url = ConstantManger.SERVER_IP + ConstantManger.UPDATE_LIVE_STATE + "?State=" + state + "&LiveID=" + liveId;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    if (jsonObject.getInt("error") == 200) {//状态修改成功
+
+                    } else if (jsonObject.getInt("error") == 201) {//状态修改失败
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

@@ -283,7 +283,12 @@ public class RecorderView extends RelativeLayout implements Callback {
         }
 
         public void startRecorder() {
-            RecorderActivity.addLive(getContext());
+            if (RecorderActivity.liveId > 0) {
+                RecorderActivity.continueLive();
+            } else {
+                RecorderActivity.addLive(getContext());
+            }
+
             startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_stop"));
             Bundle bundle = new Bundle();
             bundle.putInt("flag", RecorderConstance.recorder_start);
@@ -291,6 +296,7 @@ public class RecorderView extends RelativeLayout implements Callback {
         }
 
         public void stopRecorder() {
+            RecorderActivity.stopLive();
             startBtn.setImageResource(ReUtils.getDrawableId(context, "letv_recorder_open"));
             Bundle bundle = new Bundle();
             bundle.putInt("flag", RecorderConstance.recorder_stop);

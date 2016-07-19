@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t1 = new Tab01();
         t1.setmContext(this);
         t2 = new Tab02();
+        t2.mainActivity = this;
         userCenterFragment = new UserCenterFragment();
+
     }
 
 
@@ -122,6 +124,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_tab_bottom3.setImageResource(R.drawable.me);
     }
 
+    /**
+     * 设置当前显示的是第三个fragment
+     */
+    public void setCurrentFragment1() {
+        reset();
+        initfragment();
+        btn_tab_bottom1.setImageResource(R.drawable.homepage_h);
+        fm.beginTransaction().replace(R.id.main_framelayout, t1, "F1").commit();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -143,3 +155,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 }
+
+
+

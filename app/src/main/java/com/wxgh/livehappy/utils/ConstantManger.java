@@ -11,11 +11,12 @@ public class ConstantManger {
     public static final String IMG_FILE = "ImgFile";//服务器地址存储路径   参数：?UserPhone =1&PassWord =1
     public static final String USER_LOGIN = "userLogin.ssm";//手机密码登陆   参数：?UserPhone =1&PassWord =1
     public static final String INSERT_LIVE = "insertLive.ssm";// 添加直播  参数？LiveTitle=1&BroadcastAddress=1& UserID=1
-    public static final String UPDATE_IMG="addShareImage.ssm";//单图片上传
-    public static final String UPDATEUSERSINFOPICPATH="updateUsersInfo.ssm";//修改个人信息
-    public static final String SELECTEARNINGSBYTODAY="selectEarningsByToday.ssm"; //今日账单
-    public static final String INSERTFEEDBACK="insertFeedback.ssm"; //添加反馈
-    public static final String SELECTALLLIVE="selectAllLive.ssm";//查询所有直播
+    public static final String UPDATE_IMG = "addShareImage.ssm";//单图片上传
+    public static final String UPDATEUSERSINFOPICPATH = "updateUsersInfo.ssm";//修改个人信息
+    public static final String SELECTEARNINGSBYTODAY = "selectEarningsByToday.ssm"; //今日账单
+    public static final String INSERTFEEDBACK = "insertFeedback.ssm"; //添加反馈
+    public static final String SELECTALLLIVE = "selectAllLive.ssm";//查询所有直播
+    public static final String UPDATE_LIVE_STATE = "updareLiveState.ssm";//更新直播状态
     public static final String UPDATEUSERSINFOISONLINE="updateUsersInfoIsOnline.ssm";//修改个人在线状态
     public static final String SELECTOTHERMY="selectOtherMY.ssm"; //查询好友等
 }

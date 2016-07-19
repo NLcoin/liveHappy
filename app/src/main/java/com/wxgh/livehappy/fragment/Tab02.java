@@ -15,6 +15,7 @@ import com.letv.controller.PlayProxy;
 import com.letv.recorder.util.MD5Utls;
 import com.letv.universal.iplay.EventPlayProxy;
 import com.wxgh.livehappy.LoginChooseActivity;
+import com.wxgh.livehappy.MainActivity;
 import com.wxgh.livehappy.R;
 import com.wxgh.livehappy.le_play.PlayNoSkinActivity;
 import com.wxgh.livehappy.le_push.RecorderActivity;
@@ -31,8 +32,9 @@ import java.util.Date;
  * Created by Administrator on 2016/5/16.
  */
 public class Tab02 extends Fragment {
+    public MainActivity mainActivity;//主界面activity
     private View view;
-    private TextView tv_play, textView;//开始直播按钮
+    private TextView tv_play;//开始直播按钮
     private EditText et_title;//直播标题
     private String playUrl = "";//播放地址
 
@@ -57,7 +59,8 @@ public class Tab02 extends Fragment {
         Users users = StaticManger.getCurrentUser(getContext());
         if (users == null) {
             startActivity(new Intent(getActivity(), LoginChooseActivity.class));
-        }else {
+            mainActivity.setCurrentFragment1();
+        } else {
             STREAM_ID = StaticManger.getCurrentUser(getContext()).getUsersinfoid() + "";
             addPlay();
         }
@@ -73,8 +76,7 @@ public class Tab02 extends Fragment {
         tv_play = (TextView) view.findViewById(R.id.tv_play);
         et_title = (EditText) view.findViewById(R.id.et_title);
         et_title.setOnClickListener(click);
-//        textView = (TextView) view.findViewById(R.id.textView);
-//        textView.setOnClickListener(click);
+
     }
 
 
@@ -90,15 +92,7 @@ public class Tab02 extends Fragment {
                     Toast.makeText(getContext(), "132456", Toast.LENGTH_LONG).show();
                     KeyBoardUtils.openKeybord(et_title, getContext());
                     break;
-//                case R.id.textView:
-//                    EditText editText2 = (EditText) view.findViewById(R.id.editText2);
-//
-//                    if (TextUtils.isEmpty(editText2.getText().toString().trim())) {
-//                        Toast.makeText(getContext(), "播放地址为空,不能播放..", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                    startLeCloudMobileLive();
-//                    break;
+
             }
         }
     };
@@ -112,9 +106,7 @@ public class Tab02 extends Fragment {
         Bundle mBundle = null;
         mBundle = new Bundle();
         mBundle.putInt(PlayProxy.PLAY_MODE, EventPlayProxy.PLAYER_LIVE);
-//        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
 
-//        mBundle.putString("path", editText2.getText().toString().trim());
         intent.putExtra(PlayNoSkinActivity.DATA, mBundle);
         startActivity(intent);
     }
@@ -135,8 +127,7 @@ public class Tab02 extends Fragment {
     public void addPlay() {
         String title = getTitle();
         playUrl = createStreamUrl(false);//获取播放地址
-//        EditText editText2 = (EditText) view.findViewById(R.id.editText2);
-//        editText2.setText(playUrl);
+
     }
 
 
