@@ -94,7 +94,7 @@
                                 android:layout_weight="1"
                                 android:layout_height="match_parent"
                                 android:text="星光"
-                                android:textSize="10sp"
+                                android:textSize="8sp"
                                 android:gravity="center"
                                 android:textColor="#fff"
                                 />

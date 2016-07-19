@@ -56,10 +56,7 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".LoginChooseActivity" />
         <activity android:name=".PhoneLoginActivity" />
@@ -239,7 +236,14 @@
             android:name="JPUSH_APPKEY"
             android:value="4f1d92a457346e0a1bcc590d" />
 
-        <activity android:name=".TestActivity" />
+        <activity android:name=".TestActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ForgetPasswordActivity"></activity>
     </application>
 

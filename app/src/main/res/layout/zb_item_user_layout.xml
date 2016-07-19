@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="40dp"
+    android:layout_height="40dp">
+    <!--直播头像-->
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_userheader"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:roundAsCircle="true"
+        fresco:roundedCornerRadius="180dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="42001"
+        android:id="@+id/txt_number"
+        android:textSize="10sp"
+        android:layout_gravity="right|bottom"
+        android:background="@drawable/zb_item_user"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textColor="#FFF"
+        android:layout_marginRight="2dp"
+        />
+</FrameLayout>
