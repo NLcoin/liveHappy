@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        >
+        <!--头像-->
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img_header"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                fresco:actualImageScaleType="focusCrop"
+                fresco:roundAsCircle="true"
+                fresco:roundedCornerRadius="180dp"
+                android:layout_margin="15dp"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/img_sign"
+                android:layout_gravity="right|bottom"
+                android:layout_margin="7dp"
+                android:src="@drawable/huangguan"
+                />
+        </FrameLayout>
+        <!--用户名 用户个性签名-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_width="180dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="徐博-月光宝宝"
+                android:textSize="21sp"
+                android:id="@+id/tv_userName"
+                android:singleLine="true"
+                android:textColor="#111111"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="15dp"
+                android:text="从此放下矫情和孤独，把真心藏好，过漂泊的日子"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:textColor="#BFBFBF"
+                android:id="@+id/tv_signature"
+                />
+        </LinearLayout>
+        <!--好友选择  plusfollow加关注  cancelfollow取消关注-->
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:src="@drawable/plusfollow"
+            android:padding="13dp"
+            />
+    </LinearLayout>
+</LinearLayout>
