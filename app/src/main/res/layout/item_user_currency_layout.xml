@@ -73,6 +73,7 @@
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
+            android:id="@+id/chose"
             android:src="@drawable/plusfollow"
             android:padding="13dp"
             />

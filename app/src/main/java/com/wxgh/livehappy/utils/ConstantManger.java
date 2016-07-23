@@ -22,5 +22,7 @@ public class ConstantManger {
     public static final String SELECTRELATIONSHIPBYID="selectRelationshipByUid.ssm";//我的关注
     public static final String SELECTRELATIONSHIPBYFRID="selectRelationshipByFrid.ssm";//我的粉丝
     public static final String SELECTMYFRIEND="selectMyFriend.ssm";//我的好友
+    public static final String INSERTRELATIONSHIP="insertRelationship.ssm";//添加我的关注
+    public static final String DELETERELATIONSHIP="deleteRelationship.ssm";//删除我的关注
 
 }

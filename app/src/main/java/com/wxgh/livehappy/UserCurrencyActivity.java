@@ -41,21 +41,23 @@ public class UserCurrencyActivity extends AppCompatActivity {
         users = StaticManger.getCurrentUser(this);
         lv_list= (ListView) findViewById(R.id.lv_list);
         initData();
-
 //        对应的行布局  item_user_currency_layout
 //        imageview控件的图片说明：plusfollow加关注  cancelfollow取消关注
     }
-
+    private int chose=0;
     private void initData() {
         lists=new ArrayList<Users>();
         int i=getIntent().getIntExtra("typyFriend",-1);
         String url="";
         if (i==1){
             url = ConstantManger.SERVER_IP + ConstantManger.SELECTRELATIONSHIPBYID;
+            chose=1;
         }else if (i==2){
             url = ConstantManger.SERVER_IP + ConstantManger.SELECTRELATIONSHIPBYFRID;
+            chose=2;
         }else{
             url = ConstantManger.SERVER_IP + ConstantManger.SELECTMYFRIEND;
+            chose=3;
         }
         RequestBody requestBody = new FormBody.Builder().add("Uid", users.getUsersinfoid()).build();
         Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -75,6 +77,8 @@ public class UserCurrencyActivity extends AppCompatActivity {
                         Message message=new Message();
                         message.what=2;
                         message.obj=json;
+                        MyApplication myApplication= (MyApplication) getApplication();
+                        myApplication.setmHandler(handler);
                         handler.sendMessage(message);
                     } else {
                         handler.sendEmptyMessage(1);
@@ -97,6 +101,7 @@ public class UserCurrencyActivity extends AppCompatActivity {
                 case 1:
                     break;
                 case 2:
+                    lists.clear();
                     String json= (String) msg.obj;
                     try {
                         JSONObject a = new JSONObject(json);
@@ -116,7 +121,7 @@ public class UserCurrencyActivity extends AppCompatActivity {
                             lists.add(us);
                         }
                         if (lists!=null)
-                        myfansAdapter=new MyFansAdapter(UserCurrencyActivity.this,lists,R.layout.item_user_currency_layout);
+                        myfansAdapter=new MyFansAdapter(UserCurrencyActivity.this,lists,R.layout.item_user_currency_layout,chose,UserCurrencyActivity.this);
                         lv_list.setAdapter(myfansAdapter);
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 import com.lecloud.config.LeCloudPlayerConfig;
 import com.letv.proxy.LeCloudProxy;
@@ -12,7 +13,15 @@ import com.wxgh.livehappy.le_play.handler.CrashHandler;
 import java.util.List;
 
 public class MyApplication extends Application {
+    private Handler mHandler;
 
+    public void setmHandler(Handler mHandler) {
+        this.mHandler = mHandler;
+    }
+
+    public Handler getmofHandler() {
+        return mHandler;
+    }
     /**
      * 全局的上下文
      */
