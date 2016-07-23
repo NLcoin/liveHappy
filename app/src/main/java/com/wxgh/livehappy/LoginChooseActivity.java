@@ -19,12 +19,16 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.wxgh.livehappy.model.ReturnJson;
 import com.wxgh.livehappy.model.TencentUserToken;
+import com.wxgh.livehappy.model.Users;
 import com.wxgh.livehappy.utils.ConstantManger;
 import com.wxgh.livehappy.utils.StaticManger;
 import com.wxgh.livehappy.utils.Verification;
 
 import java.io.IOException;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -58,10 +62,14 @@ public class LoginChooseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_choose);
         int i=getIntent().getIntExtra("islogin",-1);
         if (i==2){
+            Users user = StaticManger.getCurrentUser(this);
             Verification.createDialog1(LoginChooseActivity.this,"提示","您已被强制下线!建议您立即修改密码!");
+            String time=Verification.getTimeYMD()+user.getUsersinfoPhone();
+            JPushInterface.setAliasAndTags(LoginChooseActivity.this,time, null, new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {}});
         }
         initView();
-
         mAuthInfo = new AuthInfo(this, APP_KEY, REDIRECT_URL, SCOPE);//创建微博授权类对象，将应用的信息保存
     }
 

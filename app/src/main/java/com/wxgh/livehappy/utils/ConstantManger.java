@@ -19,4 +19,8 @@ public class ConstantManger {
     public static final String UPDATE_LIVE_STATE = "updareLiveState.ssm";//更新直播状态
     public static final String UPDATEUSERSINFOISONLINE="updateUsersInfoIsOnline.ssm";//修改个人在线状态
     public static final String SELECTOTHERMY="selectOtherMY.ssm"; //查询好友等
+    public static final String SELECTRELATIONSHIPBYID="selectRelationshipByUid.ssm";//我的关注
+    public static final String SELECTRELATIONSHIPBYFRID="selectRelationshipByFrid.ssm";//我的粉丝
+    public static final String SELECTMYFRIEND="selectMyFriend.ssm";//我的好友
+
 }

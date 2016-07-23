@@ -18,6 +18,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.wxgh.livehappy.FeedbackActivity;
 import com.wxgh.livehappy.LoginChooseActivity;
 import com.wxgh.livehappy.R;
+import com.wxgh.livehappy.UserCurrencyActivity;
 import com.wxgh.livehappy.UsersInformationActivity;
 import com.wxgh.livehappy.WalletActivity;
 import com.wxgh.livehappy.app.MyApplication;
@@ -222,13 +223,19 @@ public class UserCenterFragment extends Fragment {
                     Verification.updateUserOnline(user);
                     break;
                 case R.id.guanzhu:
-                    Toast.makeText(MyApplication.getContext(), "111111111", Toast.LENGTH_LONG).show();
+                    Intent intent1=new Intent(getActivity(), UserCurrencyActivity.class);
+                    intent1.putExtra("typyFriend",1);
+                    startActivityForResult(intent1, 4);
                     break;
                 case R.id.fensi:
-                    Toast.makeText(MyApplication.getContext(), "22222222222", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(getActivity(), UserCurrencyActivity.class);
+                    intent.putExtra("typyFriend",2);
+                    startActivityForResult(intent, 4);
                     break;
                 case R.id.haoy:
-                    Toast.makeText(MyApplication.getContext(), "3333333！", Toast.LENGTH_LONG).show();
+                    Intent intent2=new Intent(getActivity(), UserCurrencyActivity.class);
+                    intent2.putExtra("typyFriend",3);
+                    startActivityForResult(intent2, 4);
                     break;
             }
             user = null;
@@ -245,7 +252,6 @@ public class UserCenterFragment extends Fragment {
                     Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(MyApplication.getContext(), "网络异常！", Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
                     String json= (String) msg.obj;

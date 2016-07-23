@@ -77,7 +77,18 @@ public class Verification {
         d = cal.get(Calendar.DATE);
         return y + "年" + m + "月" + d + "日";
     }
-
+    /**
+     * 获取当前时间（年月日）
+     * @return
+     */
+    public static String getTimeYMD(){
+        int y,m,d;
+        Calendar cal=Calendar.getInstance();
+        y=cal.get(Calendar.YEAR);
+        m=cal.get(Calendar.MONTH)+1;
+        d=cal.get(Calendar.DATE);
+        return y+m+d+"";
+    }
     /**
      * 隐藏电话号码中间四位
      *

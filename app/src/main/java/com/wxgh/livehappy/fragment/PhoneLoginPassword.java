@@ -3,6 +3,7 @@ package com.wxgh.livehappy.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,13 +99,15 @@ public class PhoneLoginPassword extends Fragment {
      * @param password 密码
      */
     private void login(final String phone, final String password) {
-        String alias=Verification.getIP(getActivity()).replace(".","")+phone;
-        JPushInterface.setAliasAndTags(getActivity(),alias, null, new TagAliasCallback() {
+        String time=Verification.getTimeYMD()+phone;
+        JPushInterface.setAliasAndTags(getActivity(),time, null, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {}});
         String url = ConstantManger.SERVER_IP + ConstantManger.USER_LOGIN;
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).add("IP", Verification.getIP(getActivity())).build();
+        RequestBody requestBody = new FormBody.Builder().add("UserPhone", phone).add("PassWord", password).add("IP", Verification.getIP(getActivity()))
+                .add("Time",time).build();
+        Log.i("time",time);
         Request request = new Request.Builder().url(url).post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override

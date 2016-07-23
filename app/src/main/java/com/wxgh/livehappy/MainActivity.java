@@ -98,8 +98,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void tab_bottom1(View view) {
         reset();
-        btn_tab_bottom1.setImageResource(R.drawable.homepage);
+
         fm.beginTransaction().replace(R.id.main_framelayout, t1, "F1").commit();
+        btn_tab_bottom1.setImageResource(R.drawable.homepage_h);
     }
 
     public void tab_bottom2(View view) {
