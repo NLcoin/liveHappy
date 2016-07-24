@@ -417,7 +417,7 @@
                     android:layout_marginLeft="45dp"
                     android:layout_marginRight="45dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/output"
+                    android:background="@drawable/output1"
                     android:gravity="center"
                     android:padding="7dp"
                     android:text="退出登录"

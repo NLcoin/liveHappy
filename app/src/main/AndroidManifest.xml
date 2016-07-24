@@ -125,7 +125,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".FeedbackActivity" />
-        <activity android:name=".SetUpActivity"></activity>
+        <activity android:name=".SetUpActivity" />
 
         <!-- 新浪 -->
         <activity
@@ -242,11 +242,10 @@
 
         <activity
             android:name=".TestActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ForgetPasswordActivity" />
-        <activity android:name=".UserCurrencyActivity">
+        <activity android:name=".UserCurrencyActivity"></activity>
+        <activity android:name=".UserDetailsActivity">
 
         </activity>
     </application>
