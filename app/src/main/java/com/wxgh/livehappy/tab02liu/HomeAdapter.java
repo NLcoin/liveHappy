@@ -1,6 +1,7 @@
 package com.wxgh.livehappy.tab02liu;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.wxgh.livehappy.R;
 import com.wxgh.livehappy.model.MyLive;
 import com.wxgh.livehappy.utils.StaticManger;
+import com.wxgh.livehappy.utils.Verification;
 
 import java.util.List;
 
@@ -41,8 +43,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         MyLive.Model model=mDatas.get(position);
-        Uri uriimg=Uri.parse(model.PicPath);
-        holder.img.setImageURI(uriimg);
+        Bitmap bitmap= Verification.getBitmap(model.BroadcastAddress,50,50);
+        if (bitmap!=null)
+        holder.img.setImageBitmap(bitmap);
         Uri uriimgheader=Uri.parse(StaticManger.getImgPath(model.PicPath));
         holder.img_header.setImageURI(uriimgheader);
         holder.txt_username.setText(model.UserName);
