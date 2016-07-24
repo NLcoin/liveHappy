@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wxgh.livehappy.adapter.MyFansAdapter;
@@ -34,15 +37,25 @@ public class UserCurrencyActivity extends AppCompatActivity {
     private List<Users> lists;
     private MyFansAdapter myfansAdapter;
     private ListView lv_list;
+    private ImageView imageButton2;
+    private TextView txt_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_currency);
         users = StaticManger.getCurrentUser(this);
         lv_list= (ListView) findViewById(R.id.lv_list);
+        imageButton2= (ImageView) findViewById(R.id.imageButton2);
+        txt_title= (TextView) findViewById(R.id.txt_title);
         initData();
 //        对应的行布局  item_user_currency_layout
 //        imageview控件的图片说明：plusfollow加关注  cancelfollow取消关注
+        imageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserCurrencyActivity.this.finish();
+            }
+        });
     }
     private int chose=0;
     private void initData() {
@@ -51,12 +64,15 @@ public class UserCurrencyActivity extends AppCompatActivity {
         String url="";
         if (i==1){
             url = ConstantManger.SERVER_IP + ConstantManger.SELECTRELATIONSHIPBYID;
+            txt_title.setText("我的关注");
             chose=1;
         }else if (i==2){
             url = ConstantManger.SERVER_IP + ConstantManger.SELECTRELATIONSHIPBYFRID;
+            txt_title.setText("我的粉丝");
             chose=2;
         }else{
             url = ConstantManger.SERVER_IP + ConstantManger.SELECTMYFRIEND;
+            txt_title.setText("我的好友");
             chose=3;
         }
         RequestBody requestBody = new FormBody.Builder().add("Uid", users.getUsersinfoid()).build();
